@@ -37,4 +37,4 @@ class Employee(models.Model):
     active = models.BooleanField(null=True, default=True, blank=True)
 
     def __str__(self):
-        return '{} {}'.format(self.name, self.company_name)
+        return '{} {}'.format(self.first_name, self.last_name)
