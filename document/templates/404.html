@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang=en>
+
+<head>
+    <meta charset=utf-8>
+    <meta http-equiv=X-UA-Compatible content="IE=edge">
+    <meta name=viewport content="width=device-width,initial-scale=1">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="{{title}}">
+    <meta property="og:description"
+        content="Workstomer.com: A Revolutionary Way to Hire Local Services &amp; Professionals">
+    <meta property="og:image" content="/static/logo/workstomer_icon.png">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="{{title}}">
+    <meta name="twitter:description"
+        content="Workstomer.com: A Revolutionary Way to Hire Local Services &amp; Professionals">
+    <meta name="twitter:image" content="/static/logo/workstomer_icon.png">
+    <!--[if IE]><link rel="icon" href="/favicon.ico"><![endif]-->
+    <title>{{title}}</title>
+    <script src=https://sdk.monnify.com/plugin/monnify.js></script>
+    <link rel=stylesheet href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900">
+    <link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css>
+    <link href="{% static 'public/css/app.css'%}" rel=preload as=style>
+    <link href="{% static 'public/css/chunk-vendors.css'%}" rel=preload as=style>
+    <link href="{% static 'public/js/app.js'%}" rel=preload as=script>
+    <link href="{% static 'public/js/chunk-vendors.js'%}" rel=preload as=script>
+    <link href="{% static 'public/css/chunk-vendors.css'%}" rel=stylesheet>
+    <link href="{% static 'public/css/app.css'%}" rel=stylesheet>
+    <link rel=icon type=image/png sizes=32x32 href="{% static 'public/favicon.ico'%}">
+    <link rel=icon type=image/png sizes=16x16 href="{% static 'public/favicon.ico'%}">
+    <link rel=manifest href="{% static 'public/manifest.json'%}">
+    <meta name=theme-color content=#0067d5>
+    <meta name=apple-mobile-web-app-capable content=yes>
+    <meta name=apple-mobile-web-app-status-bar-style content=#0067d5>
+    <meta name=apple-mobile-web-app-title content=Workstomer>
+    <link rel=apple-touch-icon href="{% static 'public/img/icons/favicon-152x152.png'%}">
+    <link rel=mask-icon href="{% static 'public/img/icons/favicon.svg'%}" color=#4DBA87>
+    <meta name=msapplication-TileImage content="{% static 'public/img/icons/favicon-144x144.png'%}">
+    <meta name=msapplication-TileColor content=#000000>
+</head>
+
+<body><noscript><strong>We're sorry but Workstomer doesn't work properly without JavaScript enabled. Please enable it
+            to continue.</strong></noscript>
+    <div id=app></div>
+    <script src="{% static 'public/js/chunk-vendors.js'%}"></script>
+    <script src="{% static 'public/js/app.js'%}"></script>
+</body>
+
+</html>
