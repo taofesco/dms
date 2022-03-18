@@ -48,3 +48,83 @@ class Login(APIView):
             return Response({
                 "data": "Wrong Username or Password"
             }, status=status.HTTP_400_BAD_REQUEST)
+
+
+class EmployeeList(APIView):
+    def get(self, request, format=None):
+        employees = Employee.objects.all()
+        serializer = EmployeeSerializer(employees, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = EmployeeSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class EmployeeDetail(APIView):
+    def get_object(self, pk):
+        try:
+            return Employee.objects.get(pk=pk)
+        except Employee.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        employee = self.get_object(pk)
+        serializer = EmployeeSerializer(employee)
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        employee = self.get_object(pk)
+        serializer = EmployeeSerializer(employee, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        employee = self.get_object(pk)
+        employee.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class BudgetList(APIView):
+    def get(self, request, format=None):
+        budgets = Budget.objects.all()
+        serializer = BudgetSerializer(budgets, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = BudgetSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class BudgetDetail(APIView):
+    def get_object(self, pk):
+        try:
+            return Budget.objects.get(pk=pk)
+        except Budget.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        budget = self.get_object(pk)
+        serializer = BudgetSerializer(budget)
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        budget = self.get_object(pk)
+        serializer = BudgetSerializer(budget, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        budget = self.get_object(pk)
+        budget.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
