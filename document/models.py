@@ -1,3 +1,4 @@
+import numbers
 import uuid
 from datetime import date
 from autoslug import AutoSlugField
@@ -87,8 +88,115 @@ class MaintenanceCost(models.Model):
 
 
 
+class RoadMaintenanceImpact(models.Model):
+    impact_plan = models.CharField(max_length=500, null=True)
+    gdp_economy = models.CharField(max_length=500, null=True)
+    climate_change = models.CharField(max_length=500, null=True)
+    other_factors_1 = models.CharField(max_length=500, null=True, blank=True)
+    other_factors_2 = models.CharField(max_length=500, null=True, blank=True)
+    other_factors_3 = models.CharField(max_length=500, null=True, blank=True)
+    other_factors_4 = models.CharField(max_length=500, null=True, blank=True)
+    file = models.FileField(upload_to='documents/', null=True, blank=True)
+    date_created = models.DateTimeField(auto_now_add=True, null=True)
+
+class ManagementPlan(models.Model):
+    strategic_plan = models.CharField(max_length=500, null=True)
+    management_plan = models.CharField(max_length=500, null=True)
+    business_plan = models.CharField(max_length=500, null=True)
+    department_plan = models.CharField(max_length=500, null=True)
+    agency_plan = models.CharField(max_length=500, null=True)
+    file = models.FileField(upload_to='documents/', null=True, blank=True)
+    date_created = models.DateTimeField(auto_now_add=True, null=True)
 
 
+class RoadAsset(models.Model):
+    name = models.CharField(max_length=500, null=True)
+    numbers = models.IntegerField(null=True)
+    classes = models.CharField(max_length=500, null=True)
+    value = models.IntegerField(null=True)
+    rebuilding_cost = models.IntegerField(null=True)
+    road_furniture_cost = models.IntegerField(null=True)
+    roads = models.CharField(max_length=500, null=True)
+    bridges = models.CharField(max_length=500, null=True)
+    tolled = models.BooleanField(null=True, default=False)
+    consession = models.BooleanField(null=True, default=False)
+    file = models.FileField(upload_to='documents/', null=True, blank=True)
+    date_created = models.DateTimeField(auto_now_add=True, null=True)
+
+
+class NonRoadAsset(models.Model):
+    location = models.CharField(max_length=500, null=True)
+    laboratories = models.IntegerField(null=True)
+    facilities = models.CharField(max_length=500, null=True)
+    #plant_equipment = models.IntegerField(null=True)
+    asphalt_plant = models.IntegerField(null=True)
+    graders = models.IntegerField(null=True)
+    sundry_equipment = models.IntegerField(null=True)
+    mini_asphalt = models.IntegerField(null=True)
+    loader = models.IntegerField(null=True)
+    file = models.FileField(upload_to='documents/', null=True, blank=True)
+    date_created = models.DateTimeField(auto_now_add=True, null=True)
+
+
+class Stakeholder(models.Model):
+    name = models.CharField(max_length=500, null=True)
+    stake = models.CharField(max_length=500, null=True)
+    address = models.CharField(max_length=500, null=True)
+    phone = models.CharField(max_length=500, null=True)
+    survey = models.CharField(max_length=500, null=True)
+    file = models.FileField(upload_to='documents/', null=True, blank=True)
+    date_created = models.DateTimeField(auto_now_add=True, null=True)
+
+
+
+class PESTLE(models.Model):
+    political = models.CharField(max_length=500, null=True)
+    economic = models.CharField(max_length=500, null=True)
+    social = models.CharField(max_length=500, null=True)
+    technology = models.CharField(max_length=500, null=True)
+    legal = models.CharField(max_length=500, null=True)
+    environment = models.CharField(max_length=500, null=True)
+    file = models.FileField(upload_to='documents/', null=True, blank=True)
+    date_created = models.DateTimeField(auto_now_add=True, null=True)
+
+
+class RoadInformantion(models.Model):
+    revenue_source = models.CharField(max_length=500, null=True)
+    periodic_audit = models.BooleanField(null=True, default=False)
+    external_audit = models.BooleanField(null=True, default=False)
+    tolled_road = models.IntegerField(null=True)
+    total_length_road_corridor = models.IntegerField(null=True)
+    corridor_condition = models.CharField(max_length=500, null=True)
+    secondary_road_lenght = models.IntegerField(null=True)
+    secondary_road_propotion = models.CharField(max_length=500, null=True)
+    unpaved_road_lenght = models.IntegerField(null=True)
+    unpaved_road_condition = models.CharField(max_length=500, null=True)
+    no_road_per_state = models.IntegerField(null=True)
+    no_road_per_zone = models.IntegerField(null=True)
+    total_length_per_state = models.IntegerField(null=True)
+    total_length_per_zone = models.IntegerField(null=True)
+    condition_federal_road = models.CharField(max_length=500, null=True)
+    file = models.FileField(upload_to='documents/', null=True, blank=True)
+    date_created = models.DateTimeField(auto_now_add=True, null=True)
+
+
+class PBMC(models.Model):
+    maintained_road = models.IntegerField(null=True)
+    road_length = models.IntegerField(null=True)
+    cost_of_road = models.IntegerField(null=True)
+    capacity_of_contractor = models.CharField(max_length=500, null=True)
+    file = models.FileField(upload_to='documents/', null=True, blank=True)
+    date_created = models.DateTimeField(auto_now_add=True, null=True)
+
+
+class PublicPrivatePartnership(models.Model):
+    legislative_for_ppp = models.CharField(max_length=500, null=True)
+    dedicated_ppp = models.BooleanField(null=True, default=False)
+    dedicated_ppp_ministry = models.CharField(max_length=500, null=True)
+    no_ppp_road = models.IntegerField(null=True)
+    length_ppp_road = models.IntegerField(null=True)
+    file = models.FileField(upload_to='documents/', null=True, blank=True)
+    date_created = models.DateTimeField(auto_now_add=True, null=True)
 
 
 
