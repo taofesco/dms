@@ -1,6 +1,7 @@
 from django.shortcuts import render
 import random
 from datetime import datetime, timedelta
+from rest_framework.parsers import MultiPartParser, FormParser
 
 
 from django.http.response import JsonResponse
@@ -88,6 +89,208 @@ class EmployeeDetail(APIView):
         employee = self.get_object(pk)
         employee.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class FederalMaintenanceCostList(APIView):
+    def get(self, request, format=None):
+        federal_maintenance_costs = FederalMaintenanceCost.objects.all()
+        serializer = FederalMaintenanceCostSerializer(federal_maintenance_costs, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = FederalMaintenanceCostSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class FederalMaintenanceCostDetail(APIView):
+    def get_object(self, pk):
+        try:
+            return FederalMaintenanceCost.objects.get(pk=pk)
+        except FederalMaintenanceCost.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        federal_maintenance_cost = self.get_object(pk)
+        serializer = FederalMaintenanceCostSerializer(federal_maintenance_cost)
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        federal_maintenance_cost = self.get_object(pk)
+        serializer = FederalMaintenanceCostSerializer(federal_maintenance_cost, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        federal_maintenance_cost = self.get_object(pk)
+        federal_maintenance_cost.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class StateMaintenanceCostList(APIView):
+    def get(self, request, format=None):
+        state_maintenance_costs = StateMaintenanceCost.objects.all()
+        serializer = StateMaintenanceCostSerializer(state_maintenance_costs, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = StateMaintenanceCostSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class StateMaintenanceCostDetail(APIView):
+    def get_object(self, pk):
+        try:
+            return StateMaintenanceCost.objects.get(pk=pk)
+        except StateMaintenanceCost.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        state_maintenance_cost = self.get_object(pk)
+        serializer = StateMaintenanceCostSerializer(state_maintenance_cost)
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        state_maintenance_cost = self.get_object(pk)
+        serializer = StateMaintenanceCostSerializer(state_maintenance_cost, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        state_maintenance_cost = self.get_object(pk)
+        state_maintenance_cost.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class UrbanMaintenanceCostList(APIView):
+    def get(self, request, format=None):
+        urban_maintenance_costs = UrbanMaintenanceCost.objects.all()
+        serializer = UrbanMaintenanceCostSerializer(urban_maintenance_costs, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = UrbanMaintenanceCostSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class UrbanMaintenanceCostDetail(APIView):
+    def get_object(self, pk):
+        try:
+            return UrbanMaintenanceCost.objects.get(pk=pk)
+        except UrbanMaintenanceCost.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        urban_maintenance_cost = self.get_object(pk)
+        serializer = UrbanMaintenanceCostSerializer(urban_maintenance_cost)
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        urban_maintenance_cost = self.get_object(pk)
+        serializer = UrbanMaintenanceCostSerializer(urban_maintenance_cost, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        urban_maintenance_cost = self.get_object(pk)
+        urban_maintenance_cost.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class RuralMaintenanceCostList(APIView):
+    def get(self, request, format=None):
+        rural_maintenance_costs = RuralMaintenanceCost.objects.all()
+        serializer = RuralMaintenanceCostSerializer(rural_maintenance_costs, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = RuralMaintenanceCostSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class RuralMaintenanceCostDetail(APIView):
+    def get_object(self, pk):
+        try:
+            return RuralMaintenanceCost.objects.get(pk=pk)
+        except RuralMaintenanceCost.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        rural_maintenance_cost = self.get_object(pk)
+        serializer = RuralMaintenanceCostSerializer(rural_maintenance_cost)
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        rural_maintenance_cost = self.get_object(pk)
+        serializer = RuralMaintenanceCostSerializer(rural_maintenance_cost, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        rural_maintenance_cost = self.get_object(pk)
+        rural_maintenance_cost.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+
+class VillageMaintenanceCostList(APIView):
+    def get(self, request, format=None):
+        village_maintenance_costs = VillageMaintenanceCost.objects.all()
+        serializer = VillageMaintenanceCostSerializer(village_maintenance_costs, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = VillageMaintenanceCostSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+class VillageMaintenanceCostDetail(APIView):
+    def get_object(self, pk):
+        try:
+            return VillageMaintenanceCost.objects.get(pk=pk)
+        except VillageMaintenanceCost.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        village_maintenance_cost = self.get_object(pk)
+        serializer = VillageMaintenanceCostSerializer(village_maintenance_cost)
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        village_maintenance_cost = self.get_object(pk)
+        serializer = VillageMaintenanceCostSerializer(village_maintenance_cost, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        village_maintenance_cost = self.get_object(pk)
+        village_maintenance_cost.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 
 class BudgetList(APIView):
@@ -981,3 +1184,108 @@ class SummaryScorecardDetail(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+class FolderList(APIView):
+    
+    def get(self, request, format=None):
+        folder = Folder.objects.all()
+        serializer = FolderSerializer(folder, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        employee = Employee.objects.get(user=request.user)
+        serializer = FolderSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(created_by=employee)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+class FolderDetail(APIView):
+
+    def get_object(self, pk):
+        try:
+            return Folder.objects.get(pk=pk)
+        except Folder.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        folder = self.get_object(pk)
+        serializer = FolderSerializer(folder)
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        folder = self.get_object(pk)
+
+        serializer = FolderSerializer(folder, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        folder = self.get_object(pk)
+        folder.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class GetFolder(APIView):
+
+    def get_object(self, folder_name):
+        try:
+            return Folder.objects.get(name=folder_name)
+        except Folder.DoesNotExist:
+            raise Http404
+
+    def get(self, request, folder_name, format=None):
+        folder = self.get_object(folder_name)
+        serializer = FolderSerializer(folder)
+        return Response(serializer.data)
+
+
+class FolderFileList(APIView):
+    parser_classes = (MultiPartParser, FormParser)
+
+    def get(self, request, folder_name, format=None):
+        folder = Folder.objects.get(name=folder_name)
+        folder_file = FolderFile.objects.filter(folder=folder)
+        serializer = FolderFileSerializer(folder_file, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, folder_name, format=None):
+        employee = Employee.objects.get(user=request.user)
+        folder = Folder.objects.get(name=folder_name)
+        serializer = FolderFileSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(created_by=employee, folder=folder)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class FolderFileDetail(APIView):
+
+    parser_classes = (MultiPartParser, FormParser)
+
+    def get_object(self, pk):
+        try:
+            return FolderFile.objects.get(pk=pk)
+        except FolderFile.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        folder_file = self.get_object(pk)
+        serializer = FolderFileSerializer(folder_file)
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        folder_file = self.get_object(pk)
+        serializer = FolderFileSerializer(folder_file, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        folder_file = self.get_object(pk)
+        folder_file.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

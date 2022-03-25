@@ -22,9 +22,32 @@ class BudgetSerializer(serializers.ModelSerializer):
         return obj.preventive_maintenance + obj.planned_maintenance + obj.routine_maintenance + obj.emergency_works + obj.other_activities
 
 
-class MaintenanceCostSerializer(serializers.ModelSerializer):
+class FederalMaintenanceCostSerializer(serializers.ModelSerializer):
     class Meta:
-        model = MaintenanceCost
+        model = FederalMaintenanceCost
+        fields = '__all__'
+
+class StateMaintenanceCostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StateMaintenanceCost
+        fields = '__all__'
+
+
+class UrbanMaintenanceCostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UrbanMaintenanceCost
+        fields = '__all__'
+
+
+class RuralMaintenanceCostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RuralMaintenanceCost
+        fields = '__all__'
+
+
+class VillageMaintenanceCostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = VillageMaintenanceCost
         fields = '__all__'
 
 
@@ -158,3 +181,13 @@ class SummaryScorecardSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class FolderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Folder
+        fields = '__all__'
+
+
+class FolderFileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FolderFile
+        fields = '__all__'
