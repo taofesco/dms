@@ -11,7 +11,8 @@ class EmployeeSerializer(serializers.ModelSerializer):
 
 class BudgetSerializer(serializers.ModelSerializer):
 
-    approraited_budget = serializers.SerializerMethodField('get_approraited_budget')
+    approraited_budget = serializers.SerializerMethodField(
+        'get_approraited_budget')
 
     class Meta:
         model = Budget
@@ -67,5 +68,93 @@ class PESTLESerializer(serializers.ModelSerializer):
         model = PESTLE
         fields = '__all__'
 
-        
+
+class RoadInformationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RoadInformation
+        fields = '__all__'
+
+
+class PBMCSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PBMC
+        fields = '__all__'
+
+
+class PublicPrivatePartnershipSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PublicPrivatePartnership
+        fields = '__all__'
+
+
+class ProjectMaintenanceWorkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProjectMaintenanceWork
+        fields = '__all__'
+
+
+class RoadProjectSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RoadProject
+        fields = '__all__'
+
+
+class NonRoadProjectSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = NonRoadProject
+        fields = '__all__'
+
+
+class InventoryRoadSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = InventoryRoad
+        fields = '__all__'
+
+
+class WorkStreamSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WorkStream
+        fields = '__all__'
+
+
+class LegendSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Legend
+        fields = '__all__'
+
+
+class KPISerializer(serializers.ModelSerializer):
+    class Meta:
+        model = KPI
+        fields = '__all__'
+
+
+class ActivitiesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Activities
+        fields = '__all__'
+
+
+class SummaryMaintenanceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SummaryMaintenance
+        fields = '__all__'
+
+
+class Deliverables1Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Deliverables1
+        fields = '__all__'
+
+class Deliverables2Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Deliverables2
+        fields = '__all__'
+
+
+class SummaryScorecardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SummaryScorecard
+        fields = '__all__'
+
 

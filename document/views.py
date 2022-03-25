@@ -133,7 +133,8 @@ class BudgetDetail(APIView):
 class RoadMaintenanceImpactlist(APIView):
     def get(self, request, format=None):
         roadmaintenanceimpacts = RoadMaintenanceImpact.objects.all()
-        serializer = RoadMaintenanceImpactSerializer(roadmaintenanceimpacts, many=True)
+        serializer = RoadMaintenanceImpactSerializer(
+            roadmaintenanceimpacts, many=True)
         return Response(serializer.data)
 
     def post(self, request, format=None):
@@ -142,6 +143,7 @@ class RoadMaintenanceImpactlist(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class RoadMaintenanceImpactDetail(APIView):
     def get_object(self, pk):
@@ -157,7 +159,8 @@ class RoadMaintenanceImpactDetail(APIView):
 
     def put(self, request, pk, format=None):
         roadmaintenanceimpact = self.get_object(pk)
-        serializer = RoadMaintenanceImpactSerializer(roadmaintenanceimpact, data=request.data)
+        serializer = RoadMaintenanceImpactSerializer(
+            roadmaintenanceimpact, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -182,6 +185,7 @@ class ManagementPlanList(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 class ManagementPlanDetail(APIView):
     def get_object(self, pk):
         try:
@@ -196,7 +200,8 @@ class ManagementPlanDetail(APIView):
 
     def put(self, request, pk, format=None):
         managementplan = self.get_object(pk)
-        serializer = ManagementPlanSerializer(managementplan, data=request.data)
+        serializer = ManagementPlanSerializer(
+            managementplan, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -220,6 +225,7 @@ class RoadAssetList(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class RoadAssetDetail(APIView):
     def get_object(self, pk):
@@ -300,6 +306,7 @@ class StakeholderList(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 class StakeholderDetail(APIView):
     def get_object(self, pk):
         try:
@@ -339,6 +346,7 @@ class PESTLEList(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 class PESTLEDetail(APIView):
     def get_object(self, pk):
         try:
@@ -363,3 +371,613 @@ class PESTLEDetail(APIView):
         pestle = self.get_object(pk)
         pestle.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class RoadInformationList(APIView):
+    def get(self, request, format=None):
+        roadinformations = RoadInformation.objects.all()
+        serializer = RoadInformationSerializer(roadinformations, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = RoadInformationSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class RoadInformationDetail(APIView):
+    def get_object(self, pk):
+        try:
+            return RoadInformation.objects.get(pk=pk)
+        except RoadInformation.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        roadinformation = self.get_object(pk)
+        serializer = RoadInformationSerializer(roadinformation)
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        roadinformation = self.get_object(pk)
+        serializer = RoadInformationSerializer(
+            roadinformation, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        roadinformation = self.get_object(pk)
+        roadinformation.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class PBMCList(APIView):
+    def get(self, request, format=None):
+        pbmcs = PBMC.objects.all()
+        serializer = PBMCSerializer(pbmcs, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = PBMCSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class PBMCDetail(APIView):
+    def get_object(self, pk):
+        try:
+            return PBMC.objects.get(pk=pk)
+        except PBMC.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        pbmc = self.get_object(pk)
+        serializer = PBMCSerializer(pbmc)
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        pbmc = self.get_object(pk)
+        serializer = PBMCSerializer(pbmc, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        pbmc = self.get_object(pk)
+        pbmc.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class PublicPrivatePartnershipList(APIView):
+    def get(self, request, format=None):
+        publicprivatepartnerships = PublicPrivatePartnership.objects.all()
+        serializer = PublicPrivatePartnershipSerializer(
+            publicprivatepartnerships, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = PublicPrivatePartnershipSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class PublicPrivatePartnershipDetail(APIView):
+    def get_object(self, pk):
+        try:
+            return PublicPrivatePartnership.objects.get(pk=pk)
+        except PublicPrivatePartnership.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        publicprivatepartnership = self.get_object(pk)
+        serializer = PublicPrivatePartnershipSerializer(
+            publicprivatepartnership)
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        publicprivatepartnership = self.get_object(pk)
+        serializer = PublicPrivatePartnershipSerializer(
+            publicprivatepartnership, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        publicprivatepartnership = self.get_object(pk)
+        publicprivatepartnership.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class ProjectMaintenanceWorkList(APIView):
+    def get(self, request, format=None):
+        projectmaintenanceworks = ProjectMaintenanceWork.objects.all()
+        serializer = ProjectMaintenanceWorkSerializer(
+            projectmaintenanceworks, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = ProjectMaintenanceWorkSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ProjectMaintenanceWorkDetail(APIView):
+    def get_object(self, pk):
+        try:
+            return ProjectMaintenanceWork.objects.get(pk=pk)
+        except ProjectMaintenanceWork.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        projectmaintenancework = self.get_object(pk)
+        serializer = ProjectMaintenanceWorkSerializer(
+            projectmaintenancework)
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        projectmaintenancework = self.get_object(pk)
+        serializer = ProjectMaintenanceWorkSerializer(
+            projectmaintenancework, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        projectmaintenancework = self.get_object(pk)
+        projectmaintenancework.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class RoadProjectList(APIView):
+    def get(self, request, format=None):
+        roadprojects = RoadProject.objects.all()
+        serializer = RoadProjectSerializer(roadprojects, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = RoadProjectSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class RoadProjectDetail(APIView):
+    def get_object(self, pk):
+        try:
+            return RoadProject.objects.get(pk=pk)
+        except RoadProject.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        roadproject = self.get_object(pk)
+        serializer = RoadProjectSerializer(roadproject)
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        roadproject = self.get_object(pk)
+        serializer = RoadProjectSerializer(roadproject, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        roadproject = self.get_object(pk)
+        roadproject.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class NonRoadProjectList(APIView):
+    def get(self, request, format=None):
+        nonroadprojects = NonRoadProject.objects.all()
+        serializer = NonRoadProjectSerializer(nonroadprojects, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = NonRoadProjectSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class NonRoadProjectDetail(APIView):
+    def get_object(self, pk):
+        try:
+            return NonRoadProject.objects.get(pk=pk)
+        except NonRoadProject.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        nonroadproject = self.get_object(pk)
+        serializer = NonRoadProjectSerializer(nonroadproject)
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        nonroadproject = self.get_object(pk)
+        serializer = NonRoadProjectSerializer(nonroadproject, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        nonroadproject = self.get_object(pk)
+        nonroadproject.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class InventoryRoadList(APIView):
+    def get(self, request, format=None):
+        inventoryroads = InventoryRoad.objects.all()
+        serializer = InventoryRoadSerializer(inventoryroads, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = InventoryRoadSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class InventoryRoadDetail(APIView):
+    def get_object(self, pk):
+        try:
+            return InventoryRoad.objects.get(pk=pk)
+        except InventoryRoad.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        inventoryroad = self.get_object(pk)
+        serializer = InventoryRoadSerializer(inventoryroad)
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        inventoryroad = self.get_object(pk)
+        serializer = InventoryRoadSerializer(inventoryroad, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        inventoryroad = self.get_object(pk)
+        inventoryroad.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class WorkStreamList(APIView):
+    def get(self, request, format=None):
+        workstreams = WorkStream.objects.all()
+        serializer = WorkStreamSerializer(workstreams, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = WorkStreamSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class WorkStreamDetail(APIView):
+    def get_object(self, pk):
+        try:
+            return WorkStream.objects.get(pk=pk)
+        except WorkStream.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        workstream = self.get_object(pk)
+        serializer = WorkStreamSerializer(workstream)
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        workstream = self.get_object(pk)
+        serializer = WorkStreamSerializer(workstream, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        workstream = self.get_object(pk)
+        workstream.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class LegendList(APIView):
+    def get(self, request, format=None):
+        legends = Legend.objects.all()
+        serializer = LegendSerializer(legends, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = LegendSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class LegendDetail(APIView):
+    def get_object(self, pk):
+        try:
+            return Legend.objects.get(pk=pk)
+        except Legend.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        legend = self.get_object(pk)
+        serializer = LegendSerializer(legend)
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        legend = self.get_object(pk)
+        serializer = LegendSerializer(legend, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        legend = self.get_object(pk)
+        legend.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class KPIList(APIView):
+    def get(self, request, format=None):
+        kpis = KPI.objects.all()
+        serializer = KPISerializer(kpis, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = KPISerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class KPIDetail(APIView):
+    def get_object(self, pk):
+        try:
+            return KPI.objects.get(pk=pk)
+        except KPI.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        kpi = self.get_object(pk)
+        serializer = KPISerializer(kpi)
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        kpi = self.get_object(pk)
+        serializer = KPISerializer(kpi, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        kpi = self.get_object(pk)
+        kpi.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class ActivitiesList(APIView):
+    def get(self, request, format=None):
+        activities = Activities.objects.all()
+        serializer = ActivitiesSerializer(activities, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = ActivitiesSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ActivitiesDetail(APIView):
+    def get_object(self, pk):
+        try:
+            return Activities.objects.get(pk=pk)
+        except Activities.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        activity = self.get_object(pk)
+        serializer = ActivitiesSerializer(activity)
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        activity = self.get_object(pk)
+        serializer = ActivitiesSerializer(activity, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        activity = self.get_object(pk)
+        activity.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class SummaryMaintenanceList(APIView):
+    def get(self, request, format=None):
+        summary_maintenance = SummaryMaintenance.objects.all()
+        serializer = SummaryMaintenanceSerializer(summary_maintenance, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = SummaryMaintenanceSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class SummaryMaintenanceDetail(APIView):
+    def get_object(self, pk):
+        try:
+            return SummaryMaintenance.objects.get(pk=pk)
+        except SummaryMaintenance.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        summary_maintenance = self.get_object(pk)
+        serializer = SummaryMaintenanceSerializer(summary_maintenance)
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        summary_maintenance = self.get_object(pk)
+        serializer = SummaryMaintenanceSerializer(summary_maintenance, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        summary_maintenance = self.get_object(pk)
+        summary_maintenance.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class Deliverables1List(APIView):
+    def get(self, request, format=None):
+        deliverables1 = Deliverables1.objects.all()
+        serializer = Deliverables1Serializer(deliverables1, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = Deliverables1Serializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class Deliverables1Detail(APIView):
+    def get_object(self, pk):
+        try:
+            return Deliverables1.objects.get(pk=pk)
+        except Deliverables1.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        deliverables1 = self.get_object(pk)
+        serializer = Deliverables1Serializer(deliverables1)
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        deliverables1 = self.get_object(pk)
+        serializer = Deliverables1Serializer(deliverables1, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        deliverables1 = self.get_object(pk)
+        deliverables1.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class Deliverables2List(APIView):
+    def get(self, request, format=None):
+        deliverables2 = Deliverables2.objects.all()
+        serializer = Deliverables2Serializer(deliverables2, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = Deliverables2Serializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class Deliverables2Detail(APIView):
+    def get_object(self, pk):
+        try:
+            return Deliverables2.objects.get(pk=pk)
+        except Deliverables2.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        deliverables2 = self.get_object(pk)
+        serializer = Deliverables2Serializer(deliverables2)
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        deliverables2 = self.get_object(pk)
+        serializer = Deliverables2Serializer(deliverables2, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        deliverables2 = self.get_object(pk)
+        deliverables2.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class SummaryScorecardList(APIView):
+    def get(self, request, format=None):
+        summary_scorecard = SummaryScorecard.objects.all()
+        serializer = SummaryScorecardSerializer(summary_scorecard, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = SummaryScorecardSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class SummaryScorecardDetail(APIView):
+    def get_object(self, pk):
+        try:
+            return SummaryScorecard.objects.get(pk=pk)
+        except SummaryScorecard.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        summary_scorecard = self.get_object(pk)
+        serializer = SummaryScorecardSerializer(summary_scorecard)
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        summary_scorecard = self.get_object(pk)
+        serializer = SummaryScorecardSerializer(
+            summary_scorecard, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        summary_scorecard = self.get_object(pk)
+        summary_scorecard.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
