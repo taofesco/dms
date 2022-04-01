@@ -10,6 +10,7 @@ urlpatterns = [
     path('password_reset/', include('django_rest_passwordreset.urls',
                                     namespace='password_reset')),
 
+    path('staffuser', StaffUser.as_view()),
     path('employee/', EmployeeList.as_view()),
     path('employee/<uuid:pk>/', EmployeeDetail.as_view()),
     path('federal_maintenance/', FederalMaintenanceCostList.as_view()),

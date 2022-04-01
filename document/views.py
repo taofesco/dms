@@ -91,6 +91,14 @@ class EmployeeDetail(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+class StaffUser(APIView):
+    
+    def get(self, request, format=None):
+        employee = Employee.objects.get(user=request.user)
+        serializer = EmployeeSerializer(employee)
+        return Response(serializer.data)
+
+
 class FederalMaintenanceCostList(APIView):
     def get(self, request, format=None):
         federal_maintenance_costs = FederalMaintenanceCost.objects.all()
