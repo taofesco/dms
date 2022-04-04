@@ -41,6 +41,7 @@ class Login(APIView):
                     'refresh': str(refresh),
                     'access': str(refresh.access_token),
                     'username': str(user.username),
+                    'role': str(employee.role),
                 })
             else:
                 return Response({
