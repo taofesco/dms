@@ -18,6 +18,12 @@ class Employee(models.Model):
         ('No', 'No'),
     )
 
+    Role = (
+        ('View', 'View'),
+        ('Create', 'Create'),
+        ('Admin', 'Admin'),
+    )
+
     id = models.UUIDField(primary_key=True, blank=True,
                           default=uuid.uuid4, editable=False)
     user = models.ForeignKey(
@@ -35,6 +41,8 @@ class Employee(models.Model):
     employee_no = models.CharField(max_length=500, null=True)
     position_management = models.CharField(max_length=500, null=True)
     phone = models.CharField(max_length=100, null=True, blank=True)
+    role = models.CharField(
+        choices=Role, max_length=20, null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
     active = models.BooleanField(null=True, default=True, blank=True)
 

@@ -2,6 +2,7 @@ from django.shortcuts import render
 import random
 from datetime import datetime, timedelta
 from rest_framework.parsers import MultiPartParser, FormParser
+from django.db.models import Sum
 
 
 from django.http.response import JsonResponse
@@ -52,6 +53,8 @@ class Login(APIView):
 
 
 class EmployeeList(APIView):
+    parser_classes = (MultiPartParser, FormParser)
+
     def get(self, request, format=None):
         employees = Employee.objects.all()
         serializer = EmployeeSerializer(employees, many=True)
@@ -66,6 +69,8 @@ class EmployeeList(APIView):
 
 
 class EmployeeDetail(APIView):
+    parser_classes = (MultiPartParser, FormParser)
+
     def get_object(self, pk):
         try:
             return Employee.objects.get(pk=pk)
@@ -92,7 +97,7 @@ class EmployeeDetail(APIView):
 
 
 class StaffUser(APIView):
-    
+
     def get(self, request, format=None):
         employee = Employee.objects.get(user=request.user)
         serializer = EmployeeSerializer(employee)
@@ -102,7 +107,8 @@ class StaffUser(APIView):
 class FederalMaintenanceCostList(APIView):
     def get(self, request, format=None):
         federal_maintenance_costs = FederalMaintenanceCost.objects.all()
-        serializer = FederalMaintenanceCostSerializer(federal_maintenance_costs, many=True)
+        serializer = FederalMaintenanceCostSerializer(
+            federal_maintenance_costs, many=True)
         return Response(serializer.data)
 
     def post(self, request, format=None):
@@ -111,6 +117,7 @@ class FederalMaintenanceCostList(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class FederalMaintenanceCostDetail(APIView):
     def get_object(self, pk):
@@ -126,7 +133,8 @@ class FederalMaintenanceCostDetail(APIView):
 
     def put(self, request, pk, format=None):
         federal_maintenance_cost = self.get_object(pk)
-        serializer = FederalMaintenanceCostSerializer(federal_maintenance_cost, data=request.data)
+        serializer = FederalMaintenanceCostSerializer(
+            federal_maintenance_cost, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -141,7 +149,8 @@ class FederalMaintenanceCostDetail(APIView):
 class StateMaintenanceCostList(APIView):
     def get(self, request, format=None):
         state_maintenance_costs = StateMaintenanceCost.objects.all()
-        serializer = StateMaintenanceCostSerializer(state_maintenance_costs, many=True)
+        serializer = StateMaintenanceCostSerializer(
+            state_maintenance_costs, many=True)
         return Response(serializer.data)
 
     def post(self, request, format=None):
@@ -166,7 +175,8 @@ class StateMaintenanceCostDetail(APIView):
 
     def put(self, request, pk, format=None):
         state_maintenance_cost = self.get_object(pk)
-        serializer = StateMaintenanceCostSerializer(state_maintenance_cost, data=request.data)
+        serializer = StateMaintenanceCostSerializer(
+            state_maintenance_cost, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -181,7 +191,8 @@ class StateMaintenanceCostDetail(APIView):
 class UrbanMaintenanceCostList(APIView):
     def get(self, request, format=None):
         urban_maintenance_costs = UrbanMaintenanceCost.objects.all()
-        serializer = UrbanMaintenanceCostSerializer(urban_maintenance_costs, many=True)
+        serializer = UrbanMaintenanceCostSerializer(
+            urban_maintenance_costs, many=True)
         return Response(serializer.data)
 
     def post(self, request, format=None):
@@ -206,7 +217,8 @@ class UrbanMaintenanceCostDetail(APIView):
 
     def put(self, request, pk, format=None):
         urban_maintenance_cost = self.get_object(pk)
-        serializer = UrbanMaintenanceCostSerializer(urban_maintenance_cost, data=request.data)
+        serializer = UrbanMaintenanceCostSerializer(
+            urban_maintenance_cost, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -221,7 +233,8 @@ class UrbanMaintenanceCostDetail(APIView):
 class RuralMaintenanceCostList(APIView):
     def get(self, request, format=None):
         rural_maintenance_costs = RuralMaintenanceCost.objects.all()
-        serializer = RuralMaintenanceCostSerializer(rural_maintenance_costs, many=True)
+        serializer = RuralMaintenanceCostSerializer(
+            rural_maintenance_costs, many=True)
         return Response(serializer.data)
 
     def post(self, request, format=None):
@@ -246,7 +259,8 @@ class RuralMaintenanceCostDetail(APIView):
 
     def put(self, request, pk, format=None):
         rural_maintenance_cost = self.get_object(pk)
-        serializer = RuralMaintenanceCostSerializer(rural_maintenance_cost, data=request.data)
+        serializer = RuralMaintenanceCostSerializer(
+            rural_maintenance_cost, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -258,11 +272,11 @@ class RuralMaintenanceCostDetail(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-
 class VillageMaintenanceCostList(APIView):
     def get(self, request, format=None):
         village_maintenance_costs = VillageMaintenanceCost.objects.all()
-        serializer = VillageMaintenanceCostSerializer(village_maintenance_costs, many=True)
+        serializer = VillageMaintenanceCostSerializer(
+            village_maintenance_costs, many=True)
         return Response(serializer.data)
 
     def post(self, request, format=None):
@@ -271,7 +285,6 @@ class VillageMaintenanceCostList(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 
 class VillageMaintenanceCostDetail(APIView):
@@ -288,7 +301,8 @@ class VillageMaintenanceCostDetail(APIView):
 
     def put(self, request, pk, format=None):
         village_maintenance_cost = self.get_object(pk)
-        serializer = VillageMaintenanceCostSerializer(village_maintenance_cost, data=request.data)
+        serializer = VillageMaintenanceCostSerializer(
+            village_maintenance_cost, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -299,6 +313,475 @@ class VillageMaintenanceCostDetail(APIView):
         village_maintenance_cost.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+
+class FederalCostReport(APIView):
+    def get(self, request, format=None):
+        federal_routine = FederalMaintenanceCost.objects.filter(mode="Routine")
+        federal_periodic = FederalMaintenanceCost.objects.filter(
+            mode="Periodic")
+
+        federal_routine_dual_amount_sum = federal_routine.aggregate(
+            Sum('dual_carriage_amount'))['dual_carriage_amount__sum']
+        federal_routine_single_amount_sum = federal_routine.aggregate(
+            Sum('single_carriage_amount'))['single_carriage_amount__sum']
+        federal_routine_earth_amount_sum = federal_routine.aggregate(
+            Sum('earth_carriage_amount'))['earth_carriage_amount__sum']
+        federal_routine_dual_percent_sum = federal_routine.aggregate(
+            Sum('dual_carriage_percent'))['dual_carriage_percent__sum']
+        federal_routine_single_percent_sum = federal_routine.aggregate(
+            Sum('single_carriage_percent'))['single_carriage_percent__sum']
+        federal_routine_earth_percent_sum = federal_routine.aggregate(
+            Sum('earth_carriage_percent'))['earth_carriage_percent__sum']
+        federal_routine_total_amount_sum = federal_routine_dual_amount_sum + \
+            federal_routine_single_amount_sum + \
+            federal_routine_earth_amount_sum
+        federal_routine_total_percent_sum = federal_routine_dual_percent_sum + \
+            federal_routine_single_percent_sum + \
+            federal_routine_earth_percent_sum
+
+        federal_periodic_dual_amount_sum = federal_periodic.aggregate(
+            Sum('dual_carriage_amount'))['dual_carriage_amount__sum']
+        federal_periodic_single_amount_sum = federal_periodic.aggregate(
+            Sum('single_carriage_amount'))['single_carriage_amount__sum']
+        federal_periodic_earth_amount_sum = federal_periodic.aggregate(
+            Sum('earth_carriage_amount'))['earth_carriage_amount__sum']
+        federal_periodic_dual_percent_sum = federal_periodic.aggregate(
+            Sum('dual_carriage_percent'))['dual_carriage_percent__sum']
+        federal_periodic_single_percent_sum = federal_periodic.aggregate(
+            Sum('single_carriage_percent'))['single_carriage_percent__sum']
+        federal_periodic_earth_percent_sum = federal_periodic.aggregate(
+            Sum('earth_carriage_percent'))['earth_carriage_percent__sum']
+        federal_periodic_total_amount_sum = federal_periodic_dual_amount_sum + \
+            federal_periodic_single_amount_sum + \
+            federal_periodic_earth_amount_sum
+        federal_periodic_total_percent_sum = federal_periodic_dual_percent_sum + \
+            federal_periodic_single_percent_sum + \
+            federal_periodic_earth_percent_sum
+
+        federal_dual_amount_subtotal = federal_routine_dual_amount_sum + \
+            federal_periodic_dual_amount_sum
+        federal_single_amount_subtotal = federal_routine_single_amount_sum + \
+            federal_periodic_single_amount_sum
+        federal_earth_amount_subtotal = federal_routine_earth_amount_sum + \
+            federal_periodic_earth_amount_sum
+        federal_dual_percent_subtotal = federal_routine_dual_percent_sum + \
+            federal_periodic_dual_percent_sum
+        federal_single_percent_subtotal = federal_routine_single_percent_sum + \
+            federal_periodic_single_percent_sum
+        federal_earth_percent_subtotal = federal_routine_earth_percent_sum + \
+            federal_periodic_earth_percent_sum
+        federal_total_amount_subtotal = federal_routine_total_amount_sum + \
+            federal_periodic_total_amount_sum
+        federal_total_percent_subtotal = federal_routine_total_percent_sum + \
+            federal_periodic_total_percent_sum
+
+        return Response({
+            "routine": {
+                "dual_amount": federal_routine_dual_amount_sum,
+                "single_amount": federal_routine_single_amount_sum,
+                "earth_amount": federal_routine_earth_amount_sum,
+                "dual_percent": federal_routine_dual_percent_sum,
+                "single_percent": federal_routine_single_percent_sum,
+                "earth_percent": federal_routine_earth_percent_sum,
+                "total_amount": federal_routine_total_amount_sum,
+                "total_percent": federal_routine_total_percent_sum
+            },
+            "periodic": {
+                "dual_amount": federal_periodic_dual_amount_sum,
+                "single_amount": federal_periodic_single_amount_sum,
+                "earth_amount": federal_periodic_earth_amount_sum,
+                "dual_percent": federal_periodic_dual_percent_sum,
+                "single_percent": federal_periodic_single_percent_sum,
+                "earth_percent": federal_periodic_earth_percent_sum,
+                "total_amount": federal_periodic_total_amount_sum,
+                "total_percent": federal_periodic_total_percent_sum
+            },
+            "subtotal": {
+                "dual_amount": federal_dual_amount_subtotal,
+                "single_amount": federal_single_amount_subtotal,
+                "earth_amount": federal_earth_amount_subtotal,
+                "dual_percent": federal_dual_percent_subtotal,
+                "single_percent": federal_single_percent_subtotal,
+                "earth_percent": federal_earth_percent_subtotal,
+                "total_amount": federal_total_amount_subtotal,
+                "total_percent": federal_total_percent_subtotal
+            }
+        })
+
+
+class StateCostReport(APIView):
+    def get(self, request, format=None):
+        state_routine = StateMaintenanceCost.objects.filter(mode="Routine")
+        state_periodic = StateMaintenanceCost.objects.filter(mode="Periodic")
+
+        state_routine_dual_amount_sum = state_routine.aggregate(
+            Sum('dual_carriage_amount'))['dual_carriage_amount__sum']
+        state_routine_single_amount_sum = state_routine.aggregate(
+            Sum('single_carriage_amount'))['single_carriage_amount__sum']
+        state_routine_earth_amount_sum = state_routine.aggregate(
+            Sum('earth_carriage_amount'))['earth_carriage_amount__sum']
+        state_routine_dual_percent_sum = state_routine.aggregate(
+            Sum('dual_carriage_percent'))['dual_carriage_percent__sum']
+        state_routine_single_percent_sum = state_routine.aggregate(
+            Sum('single_carriage_percent'))['single_carriage_percent__sum']
+        state_routine_earth_percent_sum = state_routine.aggregate(
+            Sum('earth_carriage_percent'))['earth_carriage_percent__sum']
+        state_routine_total_amount_sum = state_routine_dual_amount_sum + \
+            state_routine_single_amount_sum + \
+            state_routine_earth_amount_sum
+        state_routine_total_percent_sum = state_routine_dual_percent_sum + \
+            state_routine_single_percent_sum + \
+            state_routine_earth_percent_sum
+
+        state_periodic_dual_amount_sum = state_periodic.aggregate(
+            Sum('dual_carriage_amount'))['dual_carriage_amount__sum']
+        state_periodic_single_amount_sum = state_periodic.aggregate(Sum('single_carriage_amount'))[
+                'single_carriage_amount__sum']
+        state_periodic_earth_amount_sum = state_periodic.aggregate(
+            Sum('earth_carriage_amount'))['earth_carriage_amount__sum']
+        state_periodic_dual_percent_sum = state_periodic.aggregate(
+            Sum('dual_carriage_percent'))['dual_carriage_percent__sum']
+        state_periodic_single_percent_sum = state_periodic.aggregate(
+            Sum('single_carriage_percent'))['single_carriage_percent__sum']
+        state_periodic_earth_percent_sum = state_periodic.aggregate(
+            Sum('earth_carriage_percent'))['earth_carriage_percent__sum']
+        state_periodic_total_amount_sum = state_periodic_dual_amount_sum + \
+            state_periodic_single_amount_sum + \
+            state_periodic_earth_amount_sum
+        state_periodic_total_percent_sum = state_periodic_dual_percent_sum + \
+            state_periodic_single_percent_sum + \
+            state_periodic_earth_percent_sum
+
+        state_dual_amount_subtotal = state_routine_dual_amount_sum + \
+            state_periodic_dual_amount_sum
+        state_single_amount_subtotal = state_routine_single_amount_sum + \
+            state_periodic_single_amount_sum
+        state_earth_amount_subtotal = state_routine_earth_amount_sum + \
+            state_periodic_earth_amount_sum
+        state_dual_percent_subtotal = state_routine_dual_percent_sum + \
+            state_periodic_dual_percent_sum
+        state_single_percent_subtotal = state_routine_single_percent_sum + \
+            state_periodic_single_percent_sum
+        state_earth_percent_subtotal = state_routine_earth_percent_sum + \
+            state_periodic_earth_percent_sum
+        state_total_amount_subtotal = state_routine_total_amount_sum + \
+            state_periodic_total_percent_sum
+        state_total_percent_subtotal = state_routine_total_percent_sum + \
+            state_periodic_total_percent_sum
+        
+        return Response({
+            "routine": {
+                "dual_amount": state_routine_dual_amount_sum,
+                "single_amount": state_routine_single_amount_sum,
+                "earth_amount": state_routine_earth_amount_sum,
+                "dual_percent": state_routine_dual_percent_sum,
+                "single_percent": state_routine_single_percent_sum,
+                "earth_percent": state_routine_earth_percent_sum,
+                "total_amount": state_routine_total_amount_sum,
+                "total_percent": state_routine_total_percent_sum
+            },
+            "periodic": {
+                "dual_amount": state_periodic_dual_amount_sum,
+                "single_amount": state_periodic_single_amount_sum,
+                "earth_amount": state_periodic_earth_amount_sum,
+                "dual_percent": state_periodic_dual_percent_sum,
+                "single_percent": state_periodic_single_percent_sum,
+                "earth_percent": state_periodic_earth_percent_sum,
+                "total_amount": state_periodic_total_amount_sum,
+                "total_percent": state_periodic_total_percent_sum
+            },
+            "subtotal": {
+                "dual_amount": state_dual_amount_subtotal,
+                "single_amount": state_single_amount_subtotal,
+                "earth_amount": state_earth_amount_subtotal,
+                "dual_percent": state_dual_percent_subtotal,
+                "single_percent": state_single_percent_subtotal,
+                "earth_percent": state_earth_percent_subtotal,
+                "total_amount": state_total_amount_subtotal,
+                "total_percent": state_total_percent_subtotal
+            }
+        })
+
+
+class RuralCostReport(APIView):
+    def get(self, request):
+        # !/usr/bin/env python3
+        rural_routine = RuralMaintenanceCost.objects.filter(mode="Routine")
+        rural_periodic = RuralMaintenanceCost.objects.filter(mode="Periodic")
+
+        rural_routine_dual_amount_sum = rural_routine.aggregate(
+            Sum('dual_carriage_amount'))['dual_carriage_amount__sum']
+        rural_routine_single_amount_sum = rural_routine.aggregate(
+            Sum('single_carriage_amount'))['single_carriage_amount__sum']
+        rural_routine_earth_amount_sum = rural_routine.aggregate(
+            Sum('earth_carriage_amount'))['earth_carriage_amount__sum']
+        rural_routine_dual_percent_sum = rural_routine.aggregate(
+            Sum('dual_carriage_percent'))['dual_carriage_percent__sum']
+        rural_routine_single_percent_sum = rural_routine.aggregate(
+            Sum('single_carriage_percent'))['single_carriage_percent__sum']
+        rural_routine_earth_percent_sum = rural_routine.aggregate(
+            Sum('earth_carriage_percent'))['earth_carriage_percent__sum']
+        rural_routine_total_amount_sum = rural_routine_dual_amount_sum + \
+            rural_routine_single_amount_sum + \
+            rural_routine_earth_amount_sum
+        rural_routine_total_percent_sum = rural_routine_dual_percent_sum + \
+            rural_routine_single_percent_sum + \
+            rural_routine_earth_percent_sum
+
+        rural_periodic_dual_amount_sum = rural_periodic.aggregate(
+            Sum('dual_carriage_amount'))['dual_carriage_amount__sum']
+        rural_periodic_single_amount_sum = rural_periodic.aggregate(
+            Sum('single_carriage_amount'))['single_carriage_amount__sum']
+        rural_periodic_earth_amount_sum = rural_periodic.aggregate(
+            Sum('earth_carriage_amount'))['earth_carriage_amount__sum']
+        rural_periodic_dual_percent_sum = rural_periodic.aggregate(
+            Sum('dual_carriage_percent'))['dual_carriage_percent__sum']
+        rural_periodic_single_percent_sum = rural_periodic.aggregate(
+            Sum('single_carriage_percent'))['single_carriage_percent__sum']
+        rural_periodic_earth_percent_sum = rural_periodic.aggregate(
+            Sum('earth_carriage_percent'))['earth_carriage_percent__sum']
+        rural_periodic_total_amount_sum = rural_periodic_dual_amount_sum + \
+            rural_periodic_single_amount_sum + \
+            rural_periodic_earth_amount_sum
+        rural_periodic_total_percent_sum = rural_periodic_dual_percent_sum + \
+            rural_periodic_single_percent_sum + \
+            rural_periodic_earth_percent_sum
+
+        rural_dual_amount_subtotal = rural_routine_dual_amount_sum + \
+            rural_periodic_dual_amount_sum
+        rural_single_amount_subtotal = rural_routine_single_amount_sum + \
+            rural_periodic_single_amount_sum
+        rural_earth_amount_subtotal = rural_routine_earth_amount_sum + \
+            rural_periodic_earth_amount_sum
+        rural_dual_percent_subtotal = rural_routine_dual_percent_sum + \
+            rural_periodic_dual_percent_sum
+        rural_single_percent_subtotal = rural_routine_single_percent_sum + \
+            rural_periodic_single_percent_sum
+        rural_earth_percent_subtotal = rural_routine_earth_percent_sum + \
+            rural_periodic_earth_percent_sum
+        rural_total_amount_subtotal = rural_routine_total_amount_sum + \
+            rural_periodic_total_amount_sum
+        rural_total_percent_subtotal = rural_routine_total_percent_sum + \
+            rural_periodic_total_percent_sum
+        
+        return Response({
+            "routine": {
+                "dual_amount": rural_routine_dual_amount_sum,
+                "single_amount": rural_routine_single_amount_sum,
+                "earth_amount": rural_routine_earth_amount_sum,
+                "dual_percent": rural_routine_dual_percent_sum,
+                "single_percent": rural_routine_single_percent_sum,
+                "earth_percent": rural_routine_earth_percent_sum,
+                "total_amount": rural_routine_total_amount_sum,
+                "total_percent": rural_routine_total_percent_sum
+            },
+            "periodic": {
+                "dual_amount": rural_periodic_dual_amount_sum,
+                "single_amount": rural_periodic_single_amount_sum,
+                "earth_amount": rural_periodic_earth_amount_sum,
+                "dual_percent": rural_periodic_dual_percent_sum,
+                "single_percent": rural_periodic_single_percent_sum,
+                "earth_percent": rural_periodic_earth_percent_sum,
+                "total_amount": rural_periodic_total_amount_sum,
+                "total_percent": rural_periodic_total_percent_sum
+            },
+            "subtotal": {
+                "dual_amount": rural_dual_amount_subtotal,
+                "single_amount": rural_single_amount_subtotal,
+                "earth_amount": rural_earth_amount_subtotal,
+                "dual_percent": rural_dual_percent_subtotal,
+                "single_percent": rural_single_percent_subtotal,
+                "earth_percent": rural_earth_percent_subtotal,
+                "total_amount": rural_total_amount_subtotal,
+                "total_percent": rural_total_percent_subtotal
+            }
+        })
+
+class UrbanCostReport(APIView):
+    def get(self, request):
+        urban_routine = UrbanMaintenanceCost.objects.filter(mode="Routine")
+        urban_periodic = UrbanMaintenanceCost.objects.filter(mode="Periodic")
+
+        urban_routine_dual_amount_sum = urban_routine.aggregate(
+            Sum('dual_carriage_amount'))['dual_carriage_amount__sum']
+        urban_routine_single_amount_sum = urban_routine.aggregate(
+            Sum('single_carriage_amount'))['single_carriage_amount__sum']
+        urban_routine_earth_amount_sum = urban_routine.aggregate(
+            Sum('earth_carriage_amount'))['earth_carriage_amount__sum']
+        urban_routine_dual_percent_sum = urban_routine.aggregate(
+            Sum('dual_carriage_percent'))['dual_carriage_percent__sum']
+        urban_routine_single_percent_sum = urban_routine.aggregate(
+            Sum('single_carriage_percent'))['single_carriage_percent__sum']
+        urban_routine_earth_percent_sum = urban_routine.aggregate(
+            Sum('earth_carriage_percent'))['earth_carriage_percent__sum']
+        urban_routine_total_amount_sum = urban_routine_dual_amount_sum + \
+            urban_routine_single_amount_sum + \
+            urban_routine_earth_amount_sum
+        urban_routine_total_percent_sum = urban_routine_dual_percent_sum + \
+            urban_routine_single_percent_sum + \
+            urban_routine_earth_percent_sum
+
+        urban_periodic_dual_amount_sum = urban_periodic.aggregate(
+            Sum('dual_carriage_amount'))['dual_carriage_amount__sum']
+        urban_periodic_single_amount_sum = urban_periodic.aggregate(
+            Sum('single_carriage_amount'))['single_carriage_amount__sum']
+        urban_periodic_earth_amount_sum = urban_periodic.aggregate(
+            Sum('earth_carriage_amount'))['earth_carriage_amount__sum']
+        urban_periodic_dual_percent_sum = urban_periodic.aggregate(
+            Sum('dual_carriage_percent'))['dual_carriage_percent__sum']
+        urban_periodic_single_percent_sum = urban_periodic.aggregate(
+            Sum('single_carriage_percent'))['single_carriage_percent__sum']
+        urban_periodic_earth_percent_sum = urban_periodic.aggregate(
+            Sum('earth_carriage_percent'))['earth_carriage_percent__sum']
+        urban_periodic_total_amount_sum = urban_periodic_dual_amount_sum + \
+            urban_periodic_single_amount_sum + \
+            urban_periodic_earth_amount_sum
+        urban_periodic_total_percent_sum = urban_periodic_dual_percent_sum + \
+            urban_periodic_single_percent_sum + \
+            urban_periodic_earth_percent_sum
+
+        urban_dual_amount_subtotal = urban_routine_dual_amount_sum + \
+            urban_periodic_dual_amount_sum
+        urban_single_amount_subtotal = urban_routine_single_amount_sum + \
+            urban_periodic_single_amount_sum
+        urban_earth_amount_subtotal = urban_routine_earth_amount_sum + \
+            urban_periodic_earth_amount_sum
+        urban_dual_percent_subtotal = urban_routine_dual_percent_sum + \
+            urban_periodic_dual_percent_sum
+        urban_single_percent_subtotal = urban_routine_single_percent_sum + \
+            urban_periodic_single_percent_sum
+        urban_earth_percent_subtotal = urban_routine_earth_percent_sum + \
+            urban_periodic_earth_percent_sum
+        urban_total_amount_subtotal = urban_routine_total_amount_sum + \
+            urban_periodic_total_amount_sum
+        urban_total_percent_subtotal = urban_routine_total_percent_sum + \
+            urban_periodic_total_percent_sum
+        
+        return Response({
+            "routine": {
+                "dual_amount": urban_routine_dual_amount_sum,
+                "single_amount": urban_routine_single_amount_sum,
+                "earth_amount": urban_routine_earth_amount_sum,
+                "dual_percent": urban_routine_dual_percent_sum,
+                "single_percent": urban_routine_single_percent_sum,
+                "earth_percent": urban_routine_earth_percent_sum,
+                "total_amount": urban_routine_total_amount_sum,
+                "total_percent": urban_routine_total_percent_sum
+            },
+            "periodic": {
+                "dual_amount": urban_periodic_dual_amount_sum,
+                "single_amount": urban_periodic_single_amount_sum,
+                "earth_amount": urban_periodic_earth_amount_sum,
+                "dual_percent": urban_periodic_dual_percent_sum,
+                "single_percent": urban_periodic_single_percent_sum,
+                "earth_percent": urban_periodic_earth_percent_sum,
+                "total_amount": urban_periodic_total_amount_sum,
+                "total_percent": urban_periodic_total_percent_sum
+            },
+            "subtotal": {
+                "dual_amount": urban_dual_amount_subtotal,
+                "single_amount": urban_single_amount_subtotal,
+                "earth_amount": urban_earth_amount_subtotal,
+                "dual_percent": urban_dual_percent_subtotal,
+                "single_percent": urban_single_percent_subtotal,
+                "earth_percent": urban_earth_percent_subtotal,
+                "total_amount": urban_total_amount_subtotal,
+                "total_percent": urban_total_percent_subtotal
+            }
+        })
+
+class VillageCostReport(APIView):
+    def get(self, request, format=None):
+        village_routine = VillageMaintenanceCost.objects.filter(mode="Routine")
+        village_periodic = VillageMaintenanceCost.objects.filter(mode="Periodic")
+
+        village_routine_dual_amount_sum = village_routine.aggregate(
+            Sum('dual_carriage_amount'))['dual_carriage_amount__sum']
+        village_routine_single_amount_sum = village_routine.aggregate(
+            Sum('single_carriage_amount'))['single_carriage_amount__sum']
+        village_routine_earth_amount_sum = village_routine.aggregate(
+            Sum('earth_carriage_amount'))['earth_carriage_amount__sum']
+        village_routine_dual_percent_sum = village_routine.aggregate(
+            Sum('dual_carriage_percent'))['dual_carriage_percent__sum']
+        village_routine_single_percent_sum = village_routine.aggregate(
+            Sum('single_carriage_percent'))['single_carriage_percent__sum']
+        village_routine_earth_percent_sum = village_routine.aggregate(
+            Sum('earth_carriage_percent'))['earth_carriage_percent__sum']
+        village_routine_total_amount_sum = village_routine_dual_amount_sum + \
+            village_routine_single_amount_sum + \
+            village_routine_earth_amount_sum
+        village_routine_total_percent_sum = village_routine_dual_percent_sum + \
+            village_routine_single_percent_sum + \
+            village_routine_earth_percent_sum
+
+        village_periodic_dual_amount_sum = village_periodic.aggregate(
+            Sum('dual_carriage_amount'))['dual_carriage_amount__sum']
+        village_periodic_single_amount_sum = village_periodic.aggregate(
+            Sum('single_carriage_amount'))['single_carriage_amount__sum']
+        village_periodic_earth_amount_sum = village_periodic.aggregate(
+            Sum('earth_carriage_amount'))['earth_carriage_amount__sum']
+        village_periodic_dual_percent_sum = village_periodic.aggregate(
+            Sum('dual_carriage_percent'))['dual_carriage_percent__sum']
+        village_periodic_single_percent_sum = village_periodic.aggregate(
+            Sum('single_carriage_percent'))['single_carriage_percent__sum']
+        village_periodic_earth_percent_sum = village_periodic.aggregate(
+            Sum('earth_carriage_percent'))['earth_carriage_percent__sum']
+        village_periodic_total_amount_sum = village_periodic_dual_amount_sum + \
+            village_periodic_single_amount_sum + \
+            village_periodic_earth_amount_sum
+        village_periodic_total_percent_sum = village_periodic_dual_percent_sum + \
+            village_periodic_single_percent_sum + \
+            village_periodic_earth_percent_sum
+
+        village_dual_amount_subtotal = village_routine_dual_amount_sum + \
+            village_periodic_dual_amount_sum
+        village_single_amount_subtotal = village_routine_single_amount_sum + \
+            village_periodic_single_amount_sum
+        village_earth_amount_subtotal = village_routine_earth_amount_sum + \
+            village_periodic_earth_amount_sum
+        village_dual_percent_subtotal = village_routine_dual_percent_sum + \
+            village_periodic_dual_percent_sum
+        village_single_percent_subtotal = village_routine_single_percent_sum + \
+            village_periodic_single_percent_sum
+        village_earth_percent_subtotal = village_routine_earth_percent_sum + \
+            village_periodic_earth_percent_sum
+        village_total_amount_subtotal = village_routine_total_amount_sum + \
+            village_periodic_total_amount_sum
+        village_total_percent_subtotal = village_routine_total_percent_sum + \
+            village_periodic_total_percent_sum
+        
+        return Response({
+            "routine": {
+                "dual_amount": village_routine_dual_amount_sum,
+                "single_amount": village_routine_single_amount_sum,
+                "earth_amount": village_routine_earth_amount_sum,
+                "dual_percent": village_routine_dual_percent_sum,
+                "single_percent": village_routine_single_percent_sum,
+                "earth_percent": village_routine_earth_percent_sum,
+                "total_amount": village_routine_total_amount_sum,
+                "total_percent": village_routine_total_percent_sum
+            },
+            "periodic": {
+                "dual_amount": village_periodic_dual_amount_sum,
+                "single_amount": village_periodic_single_amount_sum,
+                "earth_amount": village_periodic_earth_amount_sum,
+                "dual_percent": village_periodic_dual_percent_sum,
+                "single_percent": village_periodic_single_percent_sum,
+                "earth_percent": village_periodic_earth_percent_sum,
+                "total_amount": village_periodic_total_amount_sum,
+                "total_percent": village_periodic_total_percent_sum
+            },
+            "subtotal": {
+                "dual_amount": village_dual_amount_subtotal,
+                "single_amount": village_single_amount_subtotal,
+                "earth_amount": village_earth_amount_subtotal,
+                "dual_percent": village_dual_percent_subtotal,
+                "single_percent": village_single_percent_subtotal,
+                "earth_percent": village_earth_percent_subtotal,
+                "total_amount": village_total_amount_subtotal,
+                "total_percent": village_total_percent_subtotal
+            }
+        })
 
 
 class BudgetList(APIView):
@@ -819,7 +1302,8 @@ class NonRoadProjectDetail(APIView):
 
     def put(self, request, pk, format=None):
         nonroadproject = self.get_object(pk)
-        serializer = NonRoadProjectSerializer(nonroadproject, data=request.data)
+        serializer = NonRoadProjectSerializer(
+            nonroadproject, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -1034,7 +1518,8 @@ class ActivitiesDetail(APIView):
 class SummaryMaintenanceList(APIView):
     def get(self, request, format=None):
         summary_maintenance = SummaryMaintenance.objects.all()
-        serializer = SummaryMaintenanceSerializer(summary_maintenance, many=True)
+        serializer = SummaryMaintenanceSerializer(
+            summary_maintenance, many=True)
         return Response(serializer.data)
 
     def post(self, request, format=None):
@@ -1059,7 +1544,8 @@ class SummaryMaintenanceDetail(APIView):
 
     def put(self, request, pk, format=None):
         summary_maintenance = self.get_object(pk)
-        serializer = SummaryMaintenanceSerializer(summary_maintenance, data=request.data)
+        serializer = SummaryMaintenanceSerializer(
+            summary_maintenance, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -1193,7 +1679,7 @@ class SummaryScorecardDetail(APIView):
 
 
 class FolderList(APIView):
-    
+
     def get(self, request, format=None):
         folder = Folder.objects.all()
         serializer = FolderSerializer(folder, many=True)
@@ -1206,7 +1692,6 @@ class FolderList(APIView):
             serializer.save(created_by=employee)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 
 class FolderDetail(APIView):
