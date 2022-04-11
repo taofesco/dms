@@ -80,4 +80,8 @@ urlpatterns = [
     path('folderfile/<folder_name>/', FolderFileList.as_view()),
     path('folderfile_detail/<int:pk>/', FolderFileDetail.as_view()),
 
+
+    path('employee_export/', EmployeeExport.as_view()),
+    path('budget_export/', BudgetExport.as_view()),
+
 ]

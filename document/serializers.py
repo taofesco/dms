@@ -191,3 +191,9 @@ class FolderFileSerializer(serializers.ModelSerializer):
     class Meta:
         model = FolderFile
         fields = '__all__'
+
+
+class ImportFileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ImportFile
+        fields = '__all__'

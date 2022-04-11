@@ -64,9 +64,9 @@ class Budget(models.Model):
     utilized_budget =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
 
-    @property
-    def approraited_budget(self):
-        return int(self.preventive_maintenance) + int(self.planned_maintenance) + int(self.routine_maintenance) + int(self.emergency_works) + int(self.other_activities)
+    # @property
+    # def approraited_budget(self):
+    #     return int(self.preventive_maintenance) + int(self.planned_maintenance) + int(self.routine_maintenance) + int(self.emergency_works) + int(self.other_activities)
 
     def __str__(self):
         return '{} {}'.format(self.year, self.annual_budget)
@@ -450,4 +450,11 @@ class FolderFile(models.Model):
     file = models.FileField(upload_to='files/')
     created_by = models.ForeignKey(
         Employee, on_delete=models.CASCADE, null=True, related_name='folder_file_created_by')
+    date_created = models.DateTimeField(auto_now_add=True, null=True)
+
+
+class ImportFile(models.Model):
+    file = models.FileField(upload_to='files/import')
+    created_by = models.ForeignKey(
+        Employee, on_delete=models.CASCADE, null=True, related_name='import_file_created_by')
     date_created = models.DateTimeField(auto_now_add=True, null=True)

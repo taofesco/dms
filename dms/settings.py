@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'django_rest_passwordreset',
     'account',
     'document',
-    'public'
+    'public',
+    'import_export',
 ]
 
 MIDDLEWARE = [
@@ -59,6 +60,10 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'dms.urls'
 AUTH_USER_MODEL = 'account.MyUser'
+
+
+IMPORT_EXPORT_USE_TRANSACTIONS = True
+
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,

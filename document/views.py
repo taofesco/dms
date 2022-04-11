@@ -1,11 +1,17 @@
+from email import header
+import os
+import csv
 from django.shortcuts import render
 import random
 from datetime import datetime, timedelta
 from rest_framework.parsers import MultiPartParser, FormParser
 from django.db.models import Sum
+from tablib import Dataset
+from django.core.files.storage import default_storage
 
 
 from django.http.response import JsonResponse
+from django.http import HttpResponse
 import time
 from django.contrib.auth import authenticate
 from django.shortcuts import render
@@ -22,6 +28,7 @@ from account.models import *
 from account.serializers import UserSerializer
 from document.models import *
 from document.serializers import *
+from document.resources import *
 
 
 class Login(APIView):
@@ -437,7 +444,7 @@ class StateCostReport(APIView):
         state_periodic_dual_amount_sum = state_periodic.aggregate(
             Sum('dual_carriage_amount'))['dual_carriage_amount__sum']
         state_periodic_single_amount_sum = state_periodic.aggregate(Sum('single_carriage_amount'))[
-                'single_carriage_amount__sum']
+            'single_carriage_amount__sum']
         state_periodic_earth_amount_sum = state_periodic.aggregate(
             Sum('earth_carriage_amount'))['earth_carriage_amount__sum']
         state_periodic_dual_percent_sum = state_periodic.aggregate(
@@ -469,7 +476,7 @@ class StateCostReport(APIView):
             state_periodic_total_percent_sum
         state_total_percent_subtotal = state_routine_total_percent_sum + \
             state_periodic_total_percent_sum
-        
+
         return Response({
             "routine": {
                 "dual_amount": state_routine_dual_amount_sum,
@@ -564,7 +571,7 @@ class RuralCostReport(APIView):
             rural_periodic_total_amount_sum
         rural_total_percent_subtotal = rural_routine_total_percent_sum + \
             rural_periodic_total_percent_sum
-        
+
         return Response({
             "routine": {
                 "dual_amount": rural_routine_dual_amount_sum,
@@ -597,6 +604,7 @@ class RuralCostReport(APIView):
                 "total_percent": rural_total_percent_subtotal
             }
         })
+
 
 class UrbanCostReport(APIView):
     def get(self, request):
@@ -657,7 +665,7 @@ class UrbanCostReport(APIView):
             urban_periodic_total_amount_sum
         urban_total_percent_subtotal = urban_routine_total_percent_sum + \
             urban_periodic_total_percent_sum
-        
+
         return Response({
             "routine": {
                 "dual_amount": urban_routine_dual_amount_sum,
@@ -691,10 +699,12 @@ class UrbanCostReport(APIView):
             }
         })
 
+
 class VillageCostReport(APIView):
     def get(self, request, format=None):
         village_routine = VillageMaintenanceCost.objects.filter(mode="Routine")
-        village_periodic = VillageMaintenanceCost.objects.filter(mode="Periodic")
+        village_periodic = VillageMaintenanceCost.objects.filter(
+            mode="Periodic")
 
         village_routine_dual_amount_sum = village_routine.aggregate(
             Sum('dual_carriage_amount'))['dual_carriage_amount__sum']
@@ -750,7 +760,7 @@ class VillageCostReport(APIView):
             village_periodic_total_amount_sum
         village_total_percent_subtotal = village_routine_total_percent_sum + \
             village_periodic_total_percent_sum
-        
+
         return Response({
             "routine": {
                 "dual_amount": village_routine_dual_amount_sum,
@@ -1783,3 +1793,48 @@ class FolderFileDetail(APIView):
         folder_file = self.get_object(pk)
         folder_file.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+""" Import/Export  """
+
+
+class EmployeeExport(APIView):
+    def get(self, request, format=None):
+        employee_resource = EmployeeResource()
+        dataset = employee_resource.export()
+        response = HttpResponse(dataset.csv, content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="employee.csv"'
+        return response
+
+
+class BudgetExport(APIView):
+    parser_classes = (MultiPartParser, FormParser)
+
+    def get(self, request, format=None):
+        budget_resource = BudgetResource()
+        dataset = budget_resource.export()
+        response = HttpResponse(
+            dataset.xlsx, content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response['Content-Disposition'] = 'attachment; filename="budget.xlsx"'
+        return response
+
+    def post(self, request, format=None):
+        budget_resource = BudgetResource()
+        serializer = ImportFileSerializer(data=request.data)
+        if serializer.is_valid():
+            import_file = serializer.save()
+
+        with open(import_file.file.path, newline='') as myFile:
+            next(myFile) # skip header line
+            reader = csv.reader(myFile)
+            for row in reader:
+                budget = Budget.objects.create(
+                    year=row[0], annual_budget=row[1], preventive_maintenance=row[2], planned_maintenance=row[3], routine_maintenance=row[4], emergency_works=row[5], other_activities=row[6], released_budget=row[7], utilized_budget= row[8])
+        import_file.delete()        
+        return Response(status=status.HTTP_201_CREATED)
+
+
+        
+
+
+
