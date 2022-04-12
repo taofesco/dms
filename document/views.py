@@ -1819,22 +1819,19 @@ class BudgetExport(APIView):
         return response
 
     def post(self, request, format=None):
-        budget_resource = BudgetResource()
+        book_resource = resources.modelresource_factory(model=Budget)()
         serializer = ImportFileSerializer(data=request.data)
         if serializer.is_valid():
             import_file = serializer.save()
-
-        with open(import_file.file.path, newline='') as myFile:
-            next(myFile) # skip header line
-            reader = csv.reader(myFile)
-            for row in reader:
-                budget = Budget.objects.create(
-                    year=row[0], annual_budget=row[1], preventive_maintenance=row[2], planned_maintenance=row[3], routine_maintenance=row[4], emergency_works=row[5], other_activities=row[6], released_budget=row[7], utilized_budget= row[8])
-        import_file.delete()        
-        return Response(status=status.HTTP_201_CREATED)
-
-
-        
-
-
-
+            dataset = Dataset().load(import_file.file.read())
+            result = book_resource.import_data(
+                dataset, format='xlsx',  dry_run=True)
+            if not result.has_errors():
+                result = book_resource.import_data(
+                    dataset, format='xlsx', dry_run=False)
+                import_file.delete()
+                return Response({'Successful'}, status=status.HTTP_201_CREATED)
+            else:
+                import_file.delete()
+                return Response(result.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
