@@ -192,15 +192,20 @@ class RoadAsset(models.Model):
 
 
 class NonRoadAsset(models.Model):
+    asset = models.CharField(max_length=500, null=True)
     location = models.CharField(max_length=500, null=True)
-    laboratories =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
-    facilities = models.CharField(max_length=500, null=True)
+    name = models.CharField(max_length=500, null=True)
+    numbers = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    classes = models.CharField(max_length=500, null=True)
+    value = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    # laboratories =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    # facilities = models.CharField(max_length=500, null=True)
     #plant_equipment =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
-    asphalt_plant =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
-    graders =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
-    sundry_equipment =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
-    mini_asphalt =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
-    loader =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    # asphalt_plant =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    # graders =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    # sundry_equipment =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    # mini_asphalt =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    # loader =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
     file = models.FileField(upload_to='documents/', null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
 

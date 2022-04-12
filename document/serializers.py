@@ -76,8 +76,8 @@ class NonRoadAssetSerializer(serializers.ModelSerializer):
         model = NonRoadAsset
         fields = '__all__'
 
-    def get_plant_equipment(self, obj):
-        return obj.asphalt_plant + obj.graders + obj.sundry_equipment + obj.mini_asphalt + obj.loader
+    # def get_plant_equipment(self, obj):
+    #     return obj.asphalt_plant + obj.graders + obj.sundry_equipment + obj.mini_asphalt + obj.loader
 
 
 class StakeholderSerializer(serializers.ModelSerializer):
