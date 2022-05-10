@@ -76,8 +76,11 @@ class FederalMaintenanceCost(models.Model):
     MODE = (
         ('Periodic', 'Periodic'),
         ('Routine', 'Routine'),
+        ('Corrective', 'Corrective'),
+        ('Reactive', 'Reactive'),
+        ('Emergency', 'Emergency'),
     )
-
+    year = models.IntegerField(null=True)
     mode = models.CharField(
         choices=MODE, max_length=20, null=True, blank=True)
     dual_carriage_amount =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
@@ -93,7 +96,11 @@ class StateMaintenanceCost(models.Model):
     MODE = (
         ('Periodic', 'Periodic'),
         ('Routine', 'Routine'),
+        ('Corrective', 'Corrective'),
+        ('Reactive', 'Reactive'),
+        ('Emergency', 'Emergency'),
     )
+    year = models.IntegerField(null=True)
     mode = models.CharField(
         choices=MODE, max_length=20, null=True, blank=True)
     dual_carriage_amount =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
@@ -109,7 +116,11 @@ class UrbanMaintenanceCost(models.Model):
     MODE = (
         ('Periodic', 'Periodic'),
         ('Routine', 'Routine'),
+        ('Corrective', 'Corrective'),
+        ('Reactive', 'Reactive'),
+        ('Emergency', 'Emergency'),
     )
+    year = models.IntegerField(null=True)
     mode = models.CharField(
         choices=MODE, max_length=20, null=True, blank=True)
     dual_carriage_amount =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
@@ -125,7 +136,11 @@ class RuralMaintenanceCost(models.Model):
     MODE = (
         ('Periodic', 'Periodic'),
         ('Routine', 'Routine'),
+        ('Corrective', 'Corrective'),
+        ('Reactive', 'Reactive'),
+        ('Emergency', 'Emergency'),
     )
+    year = models.IntegerField(null=True)
     mode = models.CharField(
         choices=MODE, max_length=20, null=True, blank=True)
     dual_carriage_amount =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
@@ -141,7 +156,11 @@ class VillageMaintenanceCost(models.Model):
     MODE = (
         ('Periodic', 'Periodic'),
         ('Routine', 'Routine'),
+        ('Corrective', 'Corrective'),
+        ('Reactive', 'Reactive'),
+        ('Emergency', 'Emergency'),
     )
+    year = models.IntegerField(null=True)
     mode = models.CharField(
         choices=MODE, max_length=20, null=True, blank=True)
     dual_carriage_amount =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
@@ -274,7 +293,8 @@ class PublicPrivatePartnership(models.Model):
 
 
 class ProjectMaintenanceWork(models.Model):
-    mda = models.CharField(max_length=500, null=True)
+    year = models.IntegerField(null=True)
+    project = models.CharField(max_length=500, null=True)
     description = models.CharField(max_length=1500, null=True)
     contract_no =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
     contractor = models.CharField(max_length=500, null=True)
@@ -290,13 +310,14 @@ class ProjectMaintenanceWork(models.Model):
 
 
 class RoadProject(models.Model):
-    east_west =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
-    engineering =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
-    diralables =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    year = models.IntegerField(null=True)
+    east_west = models.CharField(max_length=1500, null=True)
+    contract = models.CharField(max_length=1500, null=True)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
 
 
 class NonRoadProject(models.Model):
+    year = models.IntegerField(null=True)
     works =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
     good_services =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
     consultancy =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
@@ -306,11 +327,13 @@ class NonRoadProject(models.Model):
 class InventoryRoad(models.Model):
     name = models.CharField(max_length=500, null=True)
     route_no =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
-    total_length =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    total_length = models.DecimalField(
+        max_digits=10, decimal_places=2, null=True)
+    total_carriageway = models.DecimalField(
+        max_digits=10, decimal_places=2, null=True)
     cway_width =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
     shoulder_width =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
-    wc =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
-    bc =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    ac = models.CharField(max_length=500, null=True)
     sd =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
     earth =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
     sub_base = models.CharField(max_length=500, null=True)
@@ -332,9 +355,9 @@ class WorkStream(models.Model):
 
 
 class Legend(models.Model):
-    asphaltic_concrete =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
-    wc =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
-    bc =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    asphaltic_concrete = models.CharField(max_length=500, null=True)
+    # wc =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    # bc =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
     sd =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
     earth = models.DecimalField(max_digits=10, decimal_places=2, null=True)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
@@ -343,6 +366,7 @@ class Legend(models.Model):
 # HMWH Mandate Performance
 
 class KPI(models.Model):
+    period = models.CharField(max_length=500, null=True)
     activity = models.CharField(max_length=500, null=True)
     kpi = models.CharField(max_length=500, null=True)
     baseline = models.DecimalField(max_digits=10, decimal_places=2, null=True)
@@ -357,15 +381,19 @@ class KPI(models.Model):
 
 
 class Activities(models.Model):
+    period = models.CharField(max_length=500, null=True)
     state = models.CharField(max_length=500, null=True)
     contractor_no =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
     contract_sum =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
     length_recovered_1 =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
     length_recovered_2 =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    job_statistics = models.DecimalField(
+        max_digits=10, decimal_places=2, null=True)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
 
 
 class SummaryMaintenance(models.Model):
+    year = models.IntegerField(null=True)
     state = models.CharField(max_length=500, null=True)
     name = models.CharField(max_length=500, null=True)
     project_id = models.CharField(max_length=500, null=True)
@@ -436,6 +464,7 @@ class Deliverables2(models.Model):
 class SummaryScorecard(models.Model):
     range = models.CharField(max_length=500, null=True)
     year = models.CharField(max_length=500, null=True)
+    length_recovered = models.DecimalField(max_digits=10, decimal_places=2, null=True)
     q1 = models.DecimalField(max_digits=10, decimal_places=2, null=True)
     q2 = models.DecimalField(max_digits=10, decimal_places=2, null=True)
     q3 = models.DecimalField(max_digits=10, decimal_places=2, null=True)

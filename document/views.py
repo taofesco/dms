@@ -327,6 +327,9 @@ class FederalCostReport(APIView):
         federal_routine = FederalMaintenanceCost.objects.filter(mode="Routine")
         federal_periodic = FederalMaintenanceCost.objects.filter(
             mode="Periodic")
+        federal_corrective = FederalMaintenanceCost.objects.filter(mode="Corrective")
+        federal_reactive = FederalMaintenanceCost.objects.filter(mode="Reactive")
+        federal_emergency = FederalMaintenanceCost.objects.filter(mode="Emergency")
 
         federal_routine_dual_amount_sum = federal_routine.aggregate(
             Sum('dual_carriage_amount'))['dual_carriage_amount__sum']
@@ -366,22 +369,121 @@ class FederalCostReport(APIView):
             federal_periodic_single_percent_sum + \
             federal_periodic_earth_percent_sum
 
+        federal_corrective_dual_amount_sum = federal_corrective.aggregate(
+            Sum('dual_carriage_amount'))['dual_carriage_amount__sum']
+        federal_corrective_single_amount_sum = federal_corrective.aggregate(
+            Sum('single_carriage_amount'))['single_carriage_amount__sum']
+        federal_corrective_earth_amount_sum = federal_corrective.aggregate(
+            Sum('earth_carriage_amount'))['earth_carriage_amount__sum']
+        federal_corrective_dual_percent_sum = federal_corrective.aggregate(
+            Sum('dual_carriage_percent'))['dual_carriage_percent__sum']
+        federal_corrective_single_percent_sum = federal_corrective.aggregate(
+            Sum('single_carriage_percent'))['single_carriage_percent__sum']
+        federal_corrective_earth_percent_sum = federal_corrective.aggregate(
+            Sum('earth_carriage_percent'))['earth_carriage_percent__sum']
+        federal_corrective_total_amount_sum = federal_corrective_dual_amount_sum + \
+            federal_corrective_single_amount_sum + \
+            federal_corrective_earth_amount_sum
+        federal_corrective_total_percent_sum = federal_corrective_dual_percent_sum + \
+            federal_corrective_single_percent_sum + \
+            federal_corrective_earth_percent_sum
+
+
+        federal_reactive_dual_amount_sum = federal_reactive.aggregate(
+            Sum('dual_carriage_amount'))['dual_carriage_amount__sum']
+        federal_reactive_single_amount_sum = federal_reactive.aggregate(
+            Sum('single_carriage_amount'))['single_carriage_amount__sum']
+        federal_reactive_earth_amount_sum = federal_reactive.aggregate(
+            Sum('earth_carriage_amount'))['earth_carriage_amount__sum']
+        federal_reactive_dual_percent_sum = federal_reactive.aggregate( 
+            Sum('dual_carriage_percent'))['dual_carriage_percent__sum']
+        federal_reactive_single_percent_sum = federal_reactive.aggregate(
+            Sum('single_carriage_percent'))['single_carriage_percent__sum']
+        federal_reactive_earth_percent_sum = federal_reactive.aggregate(
+            Sum('earth_carriage_percent'))['earth_carriage_percent__sum']
+        federal_reactive_total_amount_sum = federal_reactive_dual_amount_sum + \
+            federal_reactive_single_amount_sum + \
+            federal_reactive_earth_amount_sum
+        federal_reactive_total_percent_sum = federal_reactive_dual_percent_sum + \
+            federal_reactive_single_percent_sum + \
+            federal_reactive_earth_percent_sum
+
+
+        federal_emergency_dual_amount_sum = federal_emergency.aggregate(
+            Sum('dual_carriage_amount'))['dual_carriage_amount__sum']
+        federal_emergency_single_amount_sum = federal_emergency.aggregate(
+            Sum('single_carriage_amount'))['single_carriage_amount__sum']
+        federal_emergency_earth_amount_sum = federal_emergency.aggregate(
+            Sum('earth_carriage_amount'))['earth_carriage_amount__sum']
+        federal_emergency_dual_percent_sum = federal_emergency.aggregate(
+            Sum('dual_carriage_percent'))['dual_carriage_percent__sum']
+        federal_emergency_single_percent_sum = federal_emergency.aggregate(
+            Sum('single_carriage_percent'))['single_carriage_percent__sum']
+        federal_emergency_earth_percent_sum = federal_emergency.aggregate(
+            Sum('earth_carriage_percent'))['earth_carriage_percent__sum']
+        federal_emergency_total_amount_sum = federal_emergency_dual_amount_sum + \
+            federal_emergency_single_amount_sum + \
+            federal_emergency_earth_amount_sum
+        federal_emergency_total_percent_sum = federal_emergency_dual_percent_sum + \
+            federal_emergency_single_percent_sum + \
+            federal_emergency_earth_percent_sum
+
+
         federal_dual_amount_subtotal = federal_routine_dual_amount_sum + \
-            federal_periodic_dual_amount_sum
+            federal_periodic_dual_amount_sum + \
+            federal_corrective_dual_amount_sum + \
+            federal_reactive_dual_amount_sum + \
+            federal_emergency_dual_amount_sum
         federal_single_amount_subtotal = federal_routine_single_amount_sum + \
-            federal_periodic_single_amount_sum
+            federal_periodic_single_amount_sum + \
+            federal_corrective_single_amount_sum + \
+            federal_reactive_single_amount_sum + \
+            federal_emergency_single_amount_sum
         federal_earth_amount_subtotal = federal_routine_earth_amount_sum + \
-            federal_periodic_earth_amount_sum
+            federal_periodic_earth_amount_sum + \
+            federal_corrective_earth_amount_sum + \
+            federal_reactive_earth_amount_sum + \
+            federal_emergency_earth_amount_sum
         federal_dual_percent_subtotal = federal_routine_dual_percent_sum + \
-            federal_periodic_dual_percent_sum
+            federal_periodic_dual_percent_sum + \
+            federal_corrective_dual_percent_sum + \
+            federal_reactive_dual_percent_sum + \
+            federal_emergency_dual_percent_sum
         federal_single_percent_subtotal = federal_routine_single_percent_sum + \
-            federal_periodic_single_percent_sum
+            federal_periodic_single_percent_sum + \
+            federal_corrective_single_percent_sum + \
+            federal_reactive_single_percent_sum + \
+            federal_emergency_single_percent_sum
         federal_earth_percent_subtotal = federal_routine_earth_percent_sum + \
-            federal_periodic_earth_percent_sum
-        federal_total_amount_subtotal = federal_routine_total_amount_sum + \
-            federal_periodic_total_amount_sum
-        federal_total_percent_subtotal = federal_routine_total_percent_sum + \
-            federal_periodic_total_percent_sum
+            federal_periodic_earth_percent_sum + \
+            federal_corrective_earth_percent_sum + \
+            federal_reactive_earth_percent_sum + \
+            federal_emergency_earth_percent_sum
+        federal_total_amount_subtotal = federal_dual_amount_subtotal + \
+            federal_single_amount_subtotal + \
+            federal_earth_amount_subtotal
+        federal_total_percent_subtotal = federal_dual_percent_subtotal + \
+            federal_single_percent_subtotal + \
+            federal_earth_percent_subtotal
+
+
+
+        # federal_dual_amount_subtotal = federal_routine_dual_amount_sum + \
+        #     federal_periodic_dual_amount_sum
+        # federal_single_amount_subtotal = federal_routine_single_amount_sum + \
+        #     federal_periodic_single_amount_sum
+        # federal_earth_amount_subtotal = federal_routine_earth_amount_sum + \
+        #     federal_periodic_earth_amount_sum
+        # federal_dual_percent_subtotal = federal_routine_dual_percent_sum + \
+        #     federal_periodic_dual_percent_sum
+        # federal_single_percent_subtotal = federal_routine_single_percent_sum + \
+        #     federal_periodic_single_percent_sum
+        # federal_earth_percent_subtotal = federal_routine_earth_percent_sum + \
+        #     federal_periodic_earth_percent_sum
+        # federal_total_amount_subtotal = federal_routine_total_amount_sum + \
+        #     federal_periodic_total_amount_sum
+        # federal_total_percent_subtotal = federal_routine_total_percent_sum + \
+        #     federal_periodic_total_percent_sum
 
         return Response({
             "routine": {
@@ -404,6 +506,36 @@ class FederalCostReport(APIView):
                 "total_amount": federal_periodic_total_amount_sum,
                 "total_percent": federal_periodic_total_percent_sum
             },
+            "corrective": {
+                "dual_amount": federal_corrective_dual_amount_sum,
+                "single_amount": federal_corrective_single_amount_sum,
+                "earth_amount": federal_corrective_earth_amount_sum,
+                "dual_percent": federal_corrective_dual_percent_sum,
+                "single_percent": federal_corrective_single_percent_sum,
+                "earth_percent": federal_corrective_earth_percent_sum,
+                "total_amount": federal_corrective_total_amount_sum,
+                "total_percent": federal_corrective_total_percent_sum
+            },
+            "reactive": {
+                "dual_amount": federal_reactive_dual_amount_sum,
+                "single_amount": federal_reactive_single_amount_sum,
+                "earth_amount": federal_reactive_earth_amount_sum,
+                "dual_percent": federal_reactive_dual_percent_sum,
+                "single_percent": federal_reactive_single_percent_sum,
+                "earth_percent": federal_reactive_earth_percent_sum,
+                "total_amount": federal_reactive_total_amount_sum,
+                "total_percent": federal_reactive_total_percent_sum
+            },
+            "emergency": {
+                "dual_amount": federal_emergency_dual_amount_sum,
+                "single_amount": federal_emergency_single_amount_sum,
+                "earth_amount": federal_emergency_earth_amount_sum,
+                "dual_percent": federal_emergency_dual_percent_sum,
+                "single_percent": federal_emergency_single_percent_sum,
+                "earth_percent": federal_emergency_earth_percent_sum,
+                "total_amount": federal_emergency_total_amount_sum,
+                "total_percent": federal_emergency_total_percent_sum
+            },
             "subtotal": {
                 "dual_amount": federal_dual_amount_subtotal,
                 "single_amount": federal_single_amount_subtotal,
@@ -421,6 +553,9 @@ class StateCostReport(APIView):
     def get(self, request, format=None):
         state_routine = StateMaintenanceCost.objects.filter(mode="Routine")
         state_periodic = StateMaintenanceCost.objects.filter(mode="Periodic")
+        state_corrective = StateMaintenanceCost.objects.filter(mode="Corrective")
+        state_reactive = StateMaintenanceCost.objects.filter(mode="Reactive")
+        state_emergency = StateMaintenanceCost.objects.filter(mode="Emergency")
 
         state_routine_dual_amount_sum = state_routine.aggregate(
             Sum('dual_carriage_amount'))['dual_carriage_amount__sum']
@@ -460,22 +595,101 @@ class StateCostReport(APIView):
             state_periodic_single_percent_sum + \
             state_periodic_earth_percent_sum
 
+        state_corrective_dual_amount_sum = state_corrective.aggregate(
+            Sum('dual_carriage_amount'))['dual_carriage_amount__sum']
+        state_corrective_single_amount_sum = state_corrective.aggregate(
+            Sum('single_carriage_amount'))['single_carriage_amount__sum']
+        state_corrective_earth_amount_sum = state_corrective.aggregate(
+            Sum('earth_carriage_amount'))['earth_carriage_amount__sum']
+        state_corrective_dual_percent_sum = state_corrective.aggregate(
+            Sum('dual_carriage_percent'))['dual_carriage_percent__sum']
+        state_corrective_single_percent_sum = state_corrective.aggregate(
+            Sum('single_carriage_percent'))['single_carriage_percent__sum']
+        state_corrective_earth_percent_sum = state_corrective.aggregate(
+            Sum('earth_carriage_percent'))['earth_carriage_percent__sum']
+        state_corrective_total_amount_sum = state_corrective_dual_amount_sum + \
+            state_corrective_single_amount_sum + \
+            state_corrective_earth_amount_sum
+        state_corrective_total_percent_sum = state_corrective_dual_percent_sum + \
+            state_corrective_single_percent_sum + \
+            state_corrective_earth_percent_sum
+        
+        state_reactive_dual_amount_sum = state_reactive.aggregate(
+            Sum('dual_carriage_amount'))['dual_carriage_amount__sum']
+        state_reactive_single_amount_sum = state_reactive.aggregate(
+            Sum('single_carriage_amount'))['single_carriage_amount__sum']
+        state_reactive_earth_amount_sum = state_reactive.aggregate(
+            Sum('earth_carriage_amount'))['earth_carriage_amount__sum']
+        state_reactive_dual_percent_sum = state_reactive.aggregate(
+            Sum('dual_carriage_percent'))['dual_carriage_percent__sum']
+        state_reactive_single_percent_sum = state_reactive.aggregate(
+            Sum('single_carriage_percent'))['single_carriage_percent__sum']
+        state_reactive_earth_percent_sum = state_reactive.aggregate(
+            Sum('earth_carriage_percent'))['earth_carriage_percent__sum']
+        state_reactive_total_amount_sum = state_reactive_dual_amount_sum + \
+            state_reactive_single_amount_sum + \
+            state_reactive_earth_amount_sum
+        state_reactive_total_percent_sum = state_reactive_dual_percent_sum + \
+            state_reactive_single_percent_sum + \
+            state_reactive_earth_percent_sum
+        
+        state_emergency_dual_amount_sum = state_emergency.aggregate(
+            Sum('dual_carriage_amount'))['dual_carriage_amount__sum']
+        state_emergency_single_amount_sum = state_emergency.aggregate(
+            Sum('single_carriage_amount'))['single_carriage_amount__sum']
+        state_emergency_earth_amount_sum = state_emergency.aggregate(
+            Sum('earth_carriage_amount'))['earth_carriage_amount__sum']
+        state_emergency_dual_percent_sum = state_emergency.aggregate(
+            Sum('dual_carriage_percent'))['dual_carriage_percent__sum']
+        state_emergency_single_percent_sum = state_emergency.aggregate(
+            Sum('single_carriage_percent'))['single_carriage_percent__sum']
+        state_emergency_earth_percent_sum = state_emergency.aggregate(
+            Sum('earth_carriage_percent'))['earth_carriage_percent__sum']
+        state_emergency_total_amount_sum = state_emergency_dual_amount_sum + \
+            state_emergency_single_amount_sum + \
+            state_emergency_earth_amount_sum
+        state_emergency_total_percent_sum = state_emergency_dual_percent_sum + \
+            state_emergency_single_percent_sum + \
+            state_emergency_earth_percent_sum
+
+
         state_dual_amount_subtotal = state_routine_dual_amount_sum + \
-            state_periodic_dual_amount_sum
+            state_periodic_dual_amount_sum + \
+            state_corrective_dual_amount_sum + \
+            state_reactive_dual_amount_sum + \
+            state_emergency_dual_amount_sum
         state_single_amount_subtotal = state_routine_single_amount_sum + \
-            state_periodic_single_amount_sum
+            state_periodic_single_amount_sum + \
+            state_corrective_single_amount_sum + \
+            state_reactive_single_amount_sum + \
+            state_emergency_single_amount_sum
         state_earth_amount_subtotal = state_routine_earth_amount_sum + \
-            state_periodic_earth_amount_sum
+            state_periodic_earth_amount_sum + \
+            state_corrective_earth_amount_sum + \
+            state_reactive_earth_amount_sum + \
+            state_emergency_earth_amount_sum
         state_dual_percent_subtotal = state_routine_dual_percent_sum + \
-            state_periodic_dual_percent_sum
+            state_periodic_dual_percent_sum + \
+            state_corrective_dual_percent_sum + \
+            state_reactive_dual_percent_sum + \
+            state_emergency_dual_percent_sum
         state_single_percent_subtotal = state_routine_single_percent_sum + \
-            state_periodic_single_percent_sum
+            state_periodic_single_percent_sum + \
+            state_corrective_single_percent_sum + \
+            state_reactive_single_percent_sum + \
+            state_emergency_single_percent_sum
         state_earth_percent_subtotal = state_routine_earth_percent_sum + \
-            state_periodic_earth_percent_sum
-        state_total_amount_subtotal = state_routine_total_amount_sum + \
-            state_periodic_total_percent_sum
-        state_total_percent_subtotal = state_routine_total_percent_sum + \
-            state_periodic_total_percent_sum
+            state_periodic_earth_percent_sum + \
+            state_corrective_earth_percent_sum + \
+            state_reactive_earth_percent_sum + \
+            state_emergency_earth_percent_sum
+        state_total_amount_subtotal = state_dual_amount_subtotal + \
+            state_single_amount_subtotal + \
+            state_earth_amount_subtotal
+        state_total_percent_subtotal = state_dual_percent_subtotal + \
+            state_single_percent_subtotal + \
+            state_earth_percent_subtotal
+
 
         return Response({
             "routine": {
@@ -498,6 +712,36 @@ class StateCostReport(APIView):
                 "total_amount": state_periodic_total_amount_sum,
                 "total_percent": state_periodic_total_percent_sum
             },
+            "corrective": {
+                "dual_amount": state_corrective_dual_amount_sum,
+                "single_amount": state_corrective_single_amount_sum,
+                "earth_amount": state_corrective_earth_amount_sum,
+                "dual_percent": state_corrective_dual_percent_sum,
+                "single_percent": state_corrective_single_percent_sum,
+                "earth_percent": state_corrective_earth_percent_sum,
+                "total_amount": state_corrective_total_amount_sum,
+                "total_percent": state_corrective_total_percent_sum
+            },
+            "reactive": {
+                "dual_amount": state_reactive_dual_amount_sum,
+                "single_amount": state_reactive_single_amount_sum,
+                "earth_amount": state_reactive_earth_amount_sum,
+                "dual_percent": state_reactive_dual_percent_sum,
+                "single_percent": state_reactive_single_percent_sum,
+                "earth_percent": state_reactive_earth_percent_sum,
+                "total_amount": state_reactive_total_amount_sum,
+                "total_percent": state_reactive_total_percent_sum
+            },
+            "emergency": {
+                "dual_amount": state_emergency_dual_amount_sum,
+                "single_amount": state_emergency_single_amount_sum,
+                "earth_amount": state_emergency_earth_amount_sum,
+                "dual_percent": state_emergency_dual_percent_sum,
+                "single_percent": state_emergency_single_percent_sum,
+                "earth_percent": state_emergency_earth_percent_sum,
+                "total_amount": state_emergency_total_amount_sum,
+                "total_percent": state_emergency_total_percent_sum
+            },
             "subtotal": {
                 "dual_amount": state_dual_amount_subtotal,
                 "single_amount": state_single_amount_subtotal,
@@ -516,6 +760,9 @@ class RuralCostReport(APIView):
         # !/usr/bin/env python3
         rural_routine = RuralMaintenanceCost.objects.filter(mode="Routine")
         rural_periodic = RuralMaintenanceCost.objects.filter(mode="Periodic")
+        rural_corrective = RuralMaintenanceCost.objects.filter(mode="Corrective")
+        rural_reactive = RuralMaintenanceCost.objects.filter(mode="Reactive")
+        rural_emergency = RuralMaintenanceCost.objects.filter(mode="Emergency")
 
         rural_routine_dual_amount_sum = rural_routine.aggregate(
             Sum('dual_carriage_amount'))['dual_carriage_amount__sum']
@@ -554,23 +801,110 @@ class RuralCostReport(APIView):
         rural_periodic_total_percent_sum = rural_periodic_dual_percent_sum + \
             rural_periodic_single_percent_sum + \
             rural_periodic_earth_percent_sum
+        
+        rural_corrective_dual_amount_sum = rural_corrective.aggregate(
+            Sum('dual_carriage_amount'))['dual_carriage_amount__sum']
+        rural_corrective_single_amount_sum = rural_corrective.aggregate(
+            Sum('single_carriage_amount'))['single_carriage_amount__sum']
+        rural_corrective_earth_amount_sum = rural_corrective.aggregate(
+            Sum('earth_carriage_amount'))['earth_carriage_amount__sum']
+        rural_corrective_dual_percent_sum = rural_corrective.aggregate(
+            Sum('dual_carriage_percent'))['dual_carriage_percent__sum']
+        rural_corrective_single_percent_sum = rural_corrective.aggregate(
+            Sum('single_carriage_percent'))['single_carriage_percent__sum']
+        rural_corrective_earth_percent_sum = rural_corrective.aggregate(
+            Sum('earth_carriage_percent'))['earth_carriage_percent__sum']
+        rural_corrective_total_amount_sum = rural_corrective_dual_amount_sum + \
+            rural_corrective_single_amount_sum + \
+            rural_corrective_earth_amount_sum
+        rural_corrective_total_percent_sum = rural_corrective_dual_percent_sum + \
+            rural_corrective_single_percent_sum + \
+            rural_corrective_earth_percent_sum
+
+        rural_reactive_dual_amount_sum = rural_reactive.aggregate(
+            Sum('dual_carriage_amount'))['dual_carriage_amount__sum']
+        rural_reactive_single_amount_sum = rural_reactive.aggregate(
+            Sum('single_carriage_amount'))['single_carriage_amount__sum']
+        rural_reactive_earth_amount_sum = rural_reactive.aggregate(
+            Sum('earth_carriage_amount'))['earth_carriage_amount__sum']
+        rural_reactive_dual_percent_sum = rural_reactive.aggregate(
+            Sum('dual_carriage_percent'))['dual_carriage_percent__sum']
+        rural_reactive_single_percent_sum = rural_reactive.aggregate(
+            Sum('single_carriage_percent'))['single_carriage_percent__sum']
+        rural_reactive_earth_percent_sum = rural_reactive.aggregate(
+            Sum('earth_carriage_percent'))['earth_carriage_percent__sum']
+        rural_reactive_total_amount_sum = rural_reactive_dual_amount_sum + \
+            rural_reactive_single_amount_sum + \
+            rural_reactive_earth_amount_sum
+        rural_reactive_total_percent_sum = rural_reactive_dual_percent_sum + \
+            rural_reactive_single_percent_sum + \
+            rural_reactive_earth_percent_sum
+
+
+        rural_emergency_dual_amount_sum = rural_emergency.aggregate(
+            Sum('dual_carriage_amount'))['dual_carriage_amount__sum']
+        rural_emergency_single_amount_sum = rural_emergency.aggregate(
+            Sum('single_carriage_amount'))['single_carriage_amount__sum']
+        rural_emergency_earth_amount_sum = rural_emergency.aggregate(
+            Sum('earth_carriage_amount'))['earth_carriage_amount__sum']
+        rural_emergency_dual_percent_sum = rural_emergency.aggregate(
+            Sum('dual_carriage_percent'))['dual_carriage_percent__sum']
+        rural_emergency_single_percent_sum = rural_emergency.aggregate(
+            Sum('single_carriage_percent'))['single_carriage_percent__sum']
+        rural_emergency_earth_percent_sum = rural_emergency.aggregate(
+            Sum('earth_carriage_percent'))['earth_carriage_percent__sum']
+        rural_emergency_total_amount_sum = rural_emergency_dual_amount_sum + \
+            rural_emergency_single_amount_sum + \
+            rural_emergency_earth_amount_sum
+        rural_emergency_total_percent_sum = rural_emergency_dual_percent_sum + \
+            rural_emergency_single_percent_sum + \
+            rural_emergency_earth_percent_sum
+
+    
+
+
 
         rural_dual_amount_subtotal = rural_routine_dual_amount_sum + \
-            rural_periodic_dual_amount_sum
+            rural_periodic_dual_amount_sum + \
+            rural_corrective_dual_amount_sum + \
+            rural_reactive_dual_amount_sum + \
+            rural_emergency_dual_amount_sum
         rural_single_amount_subtotal = rural_routine_single_amount_sum + \
-            rural_periodic_single_amount_sum
+            rural_periodic_single_amount_sum + \
+            rural_corrective_single_amount_sum + \
+            rural_reactive_single_amount_sum + \
+            rural_emergency_single_amount_sum
         rural_earth_amount_subtotal = rural_routine_earth_amount_sum + \
-            rural_periodic_earth_amount_sum
+            rural_periodic_earth_amount_sum + \
+            rural_corrective_earth_amount_sum + \
+            rural_reactive_earth_amount_sum + \
+            rural_emergency_earth_amount_sum
+
         rural_dual_percent_subtotal = rural_routine_dual_percent_sum + \
-            rural_periodic_dual_percent_sum
+            rural_periodic_dual_percent_sum + \
+            rural_corrective_dual_percent_sum + \
+            rural_reactive_dual_percent_sum + \
+            rural_emergency_dual_percent_sum
         rural_single_percent_subtotal = rural_routine_single_percent_sum + \
-            rural_periodic_single_percent_sum
+            rural_periodic_single_percent_sum + \
+            rural_corrective_single_percent_sum + \
+            rural_reactive_single_percent_sum + \
+            rural_emergency_single_percent_sum
         rural_earth_percent_subtotal = rural_routine_earth_percent_sum + \
-            rural_periodic_earth_percent_sum
+            rural_periodic_earth_percent_sum + \
+            rural_corrective_earth_percent_sum + \
+            rural_reactive_earth_percent_sum + \
+            rural_emergency_earth_percent_sum
         rural_total_amount_subtotal = rural_routine_total_amount_sum + \
-            rural_periodic_total_amount_sum
+            rural_periodic_total_amount_sum + \
+            rural_corrective_total_amount_sum + \
+            rural_reactive_total_amount_sum + \
+            rural_emergency_total_amount_sum
         rural_total_percent_subtotal = rural_routine_total_percent_sum + \
-            rural_periodic_total_percent_sum
+            rural_periodic_total_percent_sum + \
+            rural_corrective_total_percent_sum + \
+            rural_reactive_total_percent_sum + \
+            rural_emergency_total_percent_sum
 
         return Response({
             "routine": {
@@ -593,6 +927,36 @@ class RuralCostReport(APIView):
                 "total_amount": rural_periodic_total_amount_sum,
                 "total_percent": rural_periodic_total_percent_sum
             },
+            "corrective": {
+                "dual_amount": rural_corrective_dual_amount_sum,
+                "single_amount": rural_corrective_single_amount_sum,
+                "earth_amount": rural_corrective_earth_amount_sum,
+                "dual_percent": rural_corrective_dual_percent_sum,
+                "single_percent": rural_corrective_single_percent_sum,
+                "earth_percent": rural_corrective_earth_percent_sum,
+                "total_amount": rural_corrective_total_amount_sum,
+                "total_percent": rural_corrective_total_percent_sum
+            },
+            "reactive": {
+                "dual_amount": rural_reactive_dual_amount_sum,
+                "single_amount": rural_reactive_single_amount_sum,
+                "earth_amount": rural_reactive_earth_amount_sum,
+                "dual_percent": rural_reactive_dual_percent_sum,
+                "single_percent": rural_reactive_single_percent_sum,
+                "earth_percent": rural_reactive_earth_percent_sum,
+                "total_amount": rural_reactive_total_amount_sum,
+                "total_percent": rural_reactive_total_percent_sum
+            },
+            "emergency": {
+                "dual_amount": rural_emergency_dual_amount_sum,
+                "single_amount": rural_emergency_single_amount_sum,
+                "earth_amount": rural_emergency_earth_amount_sum,
+                "dual_percent": rural_emergency_dual_percent_sum,
+                "single_percent": rural_emergency_single_percent_sum,
+                "earth_percent": rural_emergency_earth_percent_sum,
+                "total_amount": rural_emergency_total_amount_sum,
+                "total_percent": rural_emergency_total_percent_sum
+            },
             "subtotal": {
                 "dual_amount": rural_dual_amount_subtotal,
                 "single_amount": rural_single_amount_subtotal,
@@ -610,6 +974,9 @@ class UrbanCostReport(APIView):
     def get(self, request):
         urban_routine = UrbanMaintenanceCost.objects.filter(mode="Routine")
         urban_periodic = UrbanMaintenanceCost.objects.filter(mode="Periodic")
+        urban_corrective = UrbanMaintenanceCost.objects.filter(mode="Corrective")
+        urban_reactive = UrbanMaintenanceCost.objects.filter(mode="Reactive")
+        urban_emergency = UrbanMaintenanceCost.objects.filter(mode="Emergency")
 
         urban_routine_dual_amount_sum = urban_routine.aggregate(
             Sum('dual_carriage_amount'))['dual_carriage_amount__sum']
@@ -649,22 +1016,106 @@ class UrbanCostReport(APIView):
             urban_periodic_single_percent_sum + \
             urban_periodic_earth_percent_sum
 
+        urban_corrective_dual_amount_sum = urban_corrective.aggregate(
+            Sum('dual_carriage_amount'))['dual_carriage_amount__sum']
+        urban_corrective_single_amount_sum = urban_corrective.aggregate(
+            Sum('single_carriage_amount'))['single_carriage_amount__sum']
+        urban_corrective_earth_amount_sum = urban_corrective.aggregate(
+            Sum('earth_carriage_amount'))['earth_carriage_amount__sum']
+        urban_corrective_dual_percent_sum = urban_corrective.aggregate(
+            Sum('dual_carriage_percent'))['dual_carriage_percent__sum']
+        urban_corrective_single_percent_sum = urban_corrective.aggregate(
+            Sum('single_carriage_percent'))['single_carriage_percent__sum']
+        urban_corrective_earth_percent_sum = urban_corrective.aggregate(
+            Sum('earth_carriage_percent'))['earth_carriage_percent__sum']
+        urban_corrective_total_amount_sum = urban_corrective_dual_amount_sum + \
+            urban_corrective_single_amount_sum + \
+            urban_corrective_earth_amount_sum
+        urban_corrective_total_percent_sum = urban_corrective_dual_percent_sum + \
+            urban_corrective_single_percent_sum + \
+            urban_corrective_earth_percent_sum
+
+        urban_reactive_dual_amount_sum = urban_reactive.aggregate(
+            Sum('dual_carriage_amount'))['dual_carriage_amount__sum']
+        urban_reactive_single_amount_sum = urban_reactive.aggregate(
+            Sum('single_carriage_amount'))['single_carriage_amount__sum']
+        urban_reactive_earth_amount_sum = urban_reactive.aggregate(
+            Sum('earth_carriage_amount'))['earth_carriage_amount__sum']
+        urban_reactive_dual_percent_sum = urban_reactive.aggregate(
+            Sum('dual_carriage_percent'))['dual_carriage_percent__sum']
+        urban_reactive_single_percent_sum = urban_reactive.aggregate(
+            Sum('single_carriage_percent'))['single_carriage_percent__sum']
+        urban_reactive_earth_percent_sum = urban_reactive.aggregate(
+            Sum('earth_carriage_percent'))['earth_carriage_percent__sum']
+        urban_reactive_total_amount_sum = urban_reactive_dual_amount_sum + \
+            urban_reactive_single_amount_sum + \
+            urban_reactive_earth_amount_sum
+        urban_reactive_total_percent_sum = urban_reactive_dual_percent_sum + \
+            urban_reactive_single_percent_sum + \
+            urban_reactive_earth_percent_sum
+
+        urban_emergency_dual_amount_sum = urban_emergency.aggregate(
+            Sum('dual_carriage_amount'))['dual_carriage_amount__sum']
+        urban_emergency_single_amount_sum = urban_emergency.aggregate(
+            Sum('single_carriage_amount'))['single_carriage_amount__sum']
+        urban_emergency_earth_amount_sum = urban_emergency.aggregate(
+            Sum('earth_carriage_amount'))['earth_carriage_amount__sum']
+        urban_emergency_dual_percent_sum = urban_emergency.aggregate(
+            Sum('dual_carriage_percent'))['dual_carriage_percent__sum']
+        urban_emergency_single_percent_sum = urban_emergency.aggregate(
+            Sum('single_carriage_percent'))['single_carriage_percent__sum']
+        urban_emergency_earth_percent_sum = urban_emergency.aggregate(
+            Sum('earth_carriage_percent'))['earth_carriage_percent__sum']
+        urban_emergency_total_amount_sum = urban_emergency_dual_amount_sum + \
+            urban_emergency_single_amount_sum + \
+            urban_emergency_earth_amount_sum
+        urban_emergency_total_percent_sum = urban_emergency_dual_percent_sum + \
+            urban_emergency_single_percent_sum + \
+            urban_emergency_earth_percent_sum
+
+
+
         urban_dual_amount_subtotal = urban_routine_dual_amount_sum + \
-            urban_periodic_dual_amount_sum
+            urban_periodic_dual_amount_sum + \
+            urban_corrective_dual_amount_sum + \
+            urban_reactive_dual_amount_sum + \
+            urban_emergency_dual_amount_sum
         urban_single_amount_subtotal = urban_routine_single_amount_sum + \
-            urban_periodic_single_amount_sum
+            urban_periodic_single_amount_sum + \
+            urban_corrective_single_amount_sum + \
+            urban_reactive_single_amount_sum + \
+            urban_emergency_single_amount_sum
         urban_earth_amount_subtotal = urban_routine_earth_amount_sum + \
-            urban_periodic_earth_amount_sum
+            urban_periodic_earth_amount_sum + \
+            urban_corrective_earth_amount_sum + \
+            urban_reactive_earth_amount_sum + \
+            urban_emergency_earth_amount_sum
         urban_dual_percent_subtotal = urban_routine_dual_percent_sum + \
-            urban_periodic_dual_percent_sum
+            urban_periodic_dual_percent_sum + \
+            urban_corrective_dual_percent_sum + \
+            urban_reactive_dual_percent_sum + \
+            urban_emergency_dual_percent_sum
         urban_single_percent_subtotal = urban_routine_single_percent_sum + \
-            urban_periodic_single_percent_sum
+            urban_periodic_single_percent_sum + \
+            urban_corrective_single_percent_sum + \
+            urban_reactive_single_percent_sum + \
+            urban_emergency_single_percent_sum
         urban_earth_percent_subtotal = urban_routine_earth_percent_sum + \
-            urban_periodic_earth_percent_sum
+            urban_periodic_earth_percent_sum + \
+            urban_corrective_earth_percent_sum + \
+            urban_reactive_earth_percent_sum + \
+            urban_emergency_earth_percent_sum
         urban_total_amount_subtotal = urban_routine_total_amount_sum + \
-            urban_periodic_total_amount_sum
+            urban_periodic_total_amount_sum + \
+            urban_corrective_total_amount_sum + \
+            urban_reactive_total_amount_sum + \
+            urban_emergency_total_amount_sum
         urban_total_percent_subtotal = urban_routine_total_percent_sum + \
-            urban_periodic_total_percent_sum
+            urban_periodic_total_percent_sum + \
+            urban_corrective_total_percent_sum + \
+            urban_reactive_total_percent_sum + \
+            urban_emergency_total_percent_sum
+
 
         return Response({
             "routine": {
@@ -687,6 +1138,36 @@ class UrbanCostReport(APIView):
                 "total_amount": urban_periodic_total_amount_sum,
                 "total_percent": urban_periodic_total_percent_sum
             },
+            "corrective": {
+                "dual_amount": urban_corrective_dual_amount_sum,
+                "single_amount": urban_corrective_single_amount_sum,
+                "earth_amount": urban_corrective_earth_amount_sum,
+                "dual_percent": urban_corrective_dual_percent_sum,
+                "single_percent": urban_corrective_single_percent_sum,
+                "earth_percent": urban_corrective_earth_percent_sum,
+                "total_amount": urban_corrective_total_amount_sum,
+                "total_percent": urban_corrective_total_percent_sum
+            },
+            "reactive": {
+                "dual_amount": urban_reactive_dual_amount_sum,
+                "single_amount": urban_reactive_single_amount_sum,
+                "earth_amount": urban_reactive_earth_amount_sum,
+                "dual_percent": urban_reactive_dual_percent_sum,
+                "single_percent": urban_reactive_single_percent_sum,
+                "earth_percent": urban_reactive_earth_percent_sum,
+                "total_amount": urban_reactive_total_amount_sum,
+                "total_percent": urban_reactive_total_percent_sum
+            },
+            "emergency": {
+                "dual_amount": urban_emergency_dual_amount_sum,
+                "single_amount": urban_emergency_single_amount_sum,
+                "earth_amount": urban_emergency_earth_amount_sum,
+                "dual_percent": urban_emergency_dual_percent_sum,
+                "single_percent": urban_emergency_single_percent_sum,
+                "earth_percent": urban_emergency_earth_percent_sum,
+                "total_amount": urban_emergency_total_amount_sum,
+                "total_percent": urban_emergency_total_percent_sum
+            },
             "subtotal": {
                 "dual_amount": urban_dual_amount_subtotal,
                 "single_amount": urban_single_amount_subtotal,
@@ -705,6 +1186,12 @@ class VillageCostReport(APIView):
         village_routine = VillageMaintenanceCost.objects.filter(mode="Routine")
         village_periodic = VillageMaintenanceCost.objects.filter(
             mode="Periodic")
+        village_corrective = VillageMaintenanceCost.objects.filter(
+            mode="Corrective")
+        village_reactive = VillageMaintenanceCost.objects.filter(
+            mode="Reactive")
+        village_emergency = VillageMaintenanceCost.objects.filter(
+            mode="Emergency")
 
         village_routine_dual_amount_sum = village_routine.aggregate(
             Sum('dual_carriage_amount'))['dual_carriage_amount__sum']
@@ -744,22 +1231,107 @@ class VillageCostReport(APIView):
             village_periodic_single_percent_sum + \
             village_periodic_earth_percent_sum
 
+        village_corrective_dual_amount_sum = village_corrective.aggregate(
+            Sum('dual_carriage_amount'))['dual_carriage_amount__sum']
+        village_corrective_single_amount_sum = village_corrective.aggregate(
+            Sum('single_carriage_amount'))['single_carriage_amount__sum']
+        village_corrective_earth_amount_sum = village_corrective.aggregate(
+            Sum('earth_carriage_amount'))['earth_carriage_amount__sum']
+        village_corrective_dual_percent_sum = village_corrective.aggregate(
+            Sum('dual_carriage_percent'))['dual_carriage_percent__sum']
+        village_corrective_single_percent_sum = village_corrective.aggregate(
+            Sum('single_carriage_percent'))['single_carriage_percent__sum']
+        village_corrective_earth_percent_sum = village_corrective.aggregate(
+            Sum('earth_carriage_percent'))['earth_carriage_percent__sum']
+        village_corrective_total_amount_sum = village_corrective_dual_amount_sum + \
+            village_corrective_single_amount_sum + \
+            village_corrective_earth_amount_sum
+        village_corrective_total_percent_sum = village_corrective_dual_percent_sum + \
+            village_corrective_single_percent_sum + \
+            village_corrective_earth_percent_sum
+
+        village_reactive_dual_amount_sum = village_reactive.aggregate(
+            Sum('dual_carriage_amount'))['dual_carriage_amount__sum']
+        village_reactive_single_amount_sum = village_reactive.aggregate(
+            Sum('single_carriage_amount'))['single_carriage_amount__sum']
+        village_reactive_earth_amount_sum = village_reactive.aggregate(
+            Sum('earth_carriage_amount'))['earth_carriage_amount__sum']
+        village_reactive_dual_percent_sum = village_reactive.aggregate(
+            Sum('dual_carriage_percent'))['dual_carriage_percent__sum']
+        village_reactive_single_percent_sum = village_reactive.aggregate(
+            Sum('single_carriage_percent'))['single_carriage_percent__sum']
+        village_reactive_earth_percent_sum = village_reactive.aggregate(
+            Sum('earth_carriage_percent'))['earth_carriage_percent__sum']
+        village_reactive_total_amount_sum = village_reactive_dual_amount_sum + \
+            village_reactive_single_amount_sum + \
+            village_reactive_earth_amount_sum
+        village_reactive_total_percent_sum = village_reactive_dual_percent_sum + \
+            village_reactive_single_percent_sum + \
+            village_reactive_earth_percent_sum
+
+
+        village_emergency_dual_amount_sum = village_emergency.aggregate(
+            Sum('dual_carriage_amount'))['dual_carriage_amount__sum']
+        village_emergency_single_amount_sum = village_emergency.aggregate(
+            Sum('single_carriage_amount'))['single_carriage_amount__sum']
+        village_emergency_earth_amount_sum = village_emergency.aggregate(
+            Sum('earth_carriage_amount'))['earth_carriage_amount__sum']
+        village_emergency_dual_percent_sum = village_emergency.aggregate(
+            Sum('dual_carriage_percent'))['dual_carriage_percent__sum']
+        village_emergency_single_percent_sum = village_emergency.aggregate(
+            Sum('single_carriage_percent'))['single_carriage_percent__sum']
+        village_emergency_earth_percent_sum = village_emergency.aggregate(
+            Sum('earth_carriage_percent'))['earth_carriage_percent__sum']
+        village_emergency_total_amount_sum = village_emergency_dual_amount_sum + \
+            village_emergency_single_amount_sum + \
+            village_emergency_earth_amount_sum
+        village_emergency_total_percent_sum = village_emergency_dual_percent_sum + \
+            village_emergency_single_percent_sum + \
+            village_emergency_earth_percent_sum
+
+
         village_dual_amount_subtotal = village_routine_dual_amount_sum + \
-            village_periodic_dual_amount_sum
+            village_periodic_dual_amount_sum + \
+            village_corrective_dual_amount_sum + \
+            village_reactive_dual_amount_sum + \
+            village_emergency_dual_amount_sum
         village_single_amount_subtotal = village_routine_single_amount_sum + \
-            village_periodic_single_amount_sum
+            village_periodic_single_amount_sum + \
+            village_corrective_single_amount_sum + \
+            village_reactive_single_amount_sum + \
+            village_emergency_single_amount_sum
         village_earth_amount_subtotal = village_routine_earth_amount_sum + \
-            village_periodic_earth_amount_sum
+            village_periodic_earth_amount_sum + \
+            village_corrective_earth_amount_sum + \
+            village_reactive_earth_amount_sum + \
+            village_emergency_earth_amount_sum
         village_dual_percent_subtotal = village_routine_dual_percent_sum + \
-            village_periodic_dual_percent_sum
+            village_periodic_dual_percent_sum + \
+            village_corrective_dual_percent_sum + \
+            village_reactive_dual_percent_sum + \
+            village_emergency_dual_percent_sum
+
         village_single_percent_subtotal = village_routine_single_percent_sum + \
-            village_periodic_single_percent_sum
+            village_periodic_single_percent_sum + \
+            village_corrective_single_percent_sum + \
+            village_reactive_single_percent_sum + \
+            village_emergency_single_percent_sum
         village_earth_percent_subtotal = village_routine_earth_percent_sum + \
-            village_periodic_earth_percent_sum
+            village_periodic_earth_percent_sum + \
+            village_corrective_earth_percent_sum + \
+            village_reactive_earth_percent_sum + \
+            village_emergency_earth_percent_sum
+
         village_total_amount_subtotal = village_routine_total_amount_sum + \
-            village_periodic_total_amount_sum
+            village_periodic_total_amount_sum + \
+            village_corrective_total_amount_sum + \
+            village_reactive_total_amount_sum + \
+            village_emergency_total_amount_sum
         village_total_percent_subtotal = village_routine_total_percent_sum + \
-            village_periodic_total_percent_sum
+            village_periodic_total_percent_sum + \
+            village_corrective_total_percent_sum + \
+            village_reactive_total_percent_sum + \
+            village_emergency_total_percent_sum
 
         return Response({
             "routine": {
@@ -782,6 +1354,38 @@ class VillageCostReport(APIView):
                 "total_amount": village_periodic_total_amount_sum,
                 "total_percent": village_periodic_total_percent_sum
             },
+            "corrective": {
+                "dual_amount": village_corrective_dual_amount_sum,
+                "single_amount": village_corrective_single_amount_sum,
+                "earth_amount": village_corrective_earth_amount_sum,
+                "dual_percent": village_corrective_dual_percent_sum,
+                "single_percent": village_corrective_single_percent_sum,
+                "earth_percent": village_corrective_earth_percent_sum,
+                "total_amount": village_corrective_total_amount_sum,
+                "total_percent": village_corrective_total_percent_sum
+            },
+            "reactive": {
+                "dual_amount": village_reactive_dual_amount_sum,
+                "single_amount": village_reactive_single_amount_sum,
+                "earth_amount": village_reactive_earth_amount_sum,
+                "dual_percent": village_reactive_dual_percent_sum,
+                "single_percent": village_reactive_single_percent_sum,
+                "earth_percent": village_reactive_earth_percent_sum,
+                "total_amount": village_reactive_total_amount_sum,
+                "total_percent": village_reactive_total_percent_sum
+            },
+            "emergency": {
+                "dual_amount": village_emergency_dual_amount_sum,
+                "single_amount": village_emergency_single_amount_sum,
+                "earth_amount": village_emergency_earth_amount_sum,
+                "dual_percent": village_emergency_dual_percent_sum,
+                "single_percent": village_emergency_single_percent_sum,
+                "earth_percent": village_emergency_earth_percent_sum,
+                "total_amount": village_emergency_total_amount_sum,
+                "total_percent": village_emergency_total_percent_sum
+            },
+
+
             "subtotal": {
                 "dual_amount": village_dual_amount_subtotal,
                 "single_amount": village_single_amount_subtotal,
