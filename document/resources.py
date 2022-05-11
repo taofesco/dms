@@ -97,6 +97,11 @@ class PublicPrivatePartnershipResource(resources.ModelResource):
         exclude = ('id','date_created')
 
 
+class CountryInformationResource(resources.ModelResource):
+    class Meta:
+        model = CountryInformation
+        exclude = ('id','date_created')
+
 class ProjectMaintenanceWorkResource(resources.ModelResource):
     class Meta:
         model = ProjectMaintenanceWork

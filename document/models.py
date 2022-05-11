@@ -292,6 +292,15 @@ class PublicPrivatePartnership(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, null=True)
 
 
+class CountryInformation(models.Model):
+    year = models.IntegerField(null=True)
+    fund = models.CharField(max_length=500, null=True)
+    road_user = models.CharField(max_length=500, null=True)
+    public_private = models.CharField(max_length=500, null=True)
+    road_agency = models.CharField(max_length=500, null=True)
+    date_created = models.DateTimeField(auto_now_add=True, null=True)
+
+
 class ProjectMaintenanceWork(models.Model):
     year = models.IntegerField(null=True)
     project = models.CharField(max_length=500, null=True)
@@ -347,10 +356,12 @@ class InventoryRoad(models.Model):
 
 
 class WorkStream(models.Model):
-    good = models.CharField(max_length=500, null=True)
-    fair = models.CharField(max_length=500, null=True)
-    poor = models.CharField(max_length=500, null=True)
-    bad = models.CharField(max_length=500, null=True)
+    year = models.IntegerField(null=True)
+    condition = models.CharField(max_length=500, null=True)
+    road = models.CharField(max_length=500, null=True)
+    length = models.IntegerField(null=True)
+    ball_unit = models.IntegerField(null=True)
+    total = models.IntegerField(null=True)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
 
 

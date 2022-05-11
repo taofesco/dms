@@ -48,10 +48,14 @@ urlpatterns = [
     path('road_information/<int:pk>/', RoadInformationDetail.as_view()),
     path('pbmc/', PBMCList.as_view()),
     path('pbmc/<int:pk>/', PBMCDetail.as_view()),
+    path('country_information/', CountryInformationList.as_view()),
+    path('country_information/<int:pk>/',
+         CountryInformationDetail.as_view()),
     path('public_private/', PublicPrivatePartnershipList.as_view()),
     path('public_private/<int:pk>/', PublicPrivatePartnershipDetail.as_view()),
     path('project_maintenance/', ProjectMaintenanceWorkList.as_view()),
-    path('project_maintenance/<int:pk>/', ProjectMaintenanceWorkDetail.as_view()),
+    path('project_maintenance/<int:pk>/',
+         ProjectMaintenanceWorkDetail.as_view()),
     path('road_project/', RoadProjectList.as_view()),
     path('road_project/<int:pk>/', RoadProjectDetail.as_view()),
     path('non_road_project/', NonRoadProjectList.as_view()),
@@ -80,6 +84,9 @@ urlpatterns = [
     path('folderfile/<folder_name>/', FolderFileList.as_view()),
     path('folderfile_detail/<int:pk>/', FolderFileDetail.as_view()),
 
+    #chart url start here
+    path('budget_chart/', BudgetChart.as_view()),
+
 
     # Import/Export path start here
     path('employee_export/', EmployeeExport.as_view()),
@@ -101,6 +108,7 @@ urlpatterns = [
     path('road_information_export/', RoadInformationImportExport.as_view()),
     path('pbmc_export/', PBMCImportExport.as_view()),
     path('public_private_export/', PublicPrivatePartnershipImportExport.as_view()),
+    path('country_information_export/', CountryInformationImportExport.as_view()),
     path('project_maintenance_export/',
          ProjectMaintenanceWorkImportExport.as_view()),
     path('road_project_export/', RoadProjectImportExport.as_view()),
@@ -114,7 +122,7 @@ urlpatterns = [
     path('deliverable_1_export/', Deliverables1ImportExport.as_view()),
     path('deliverable_2_export/', Deliverables2ImportExport.as_view()),
     path('summary_scorecard_export/', SummaryScorecardImportExport.as_view()),
-    
+
 
 
 

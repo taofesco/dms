@@ -116,6 +116,12 @@ class ProjectMaintenanceWorkSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class CountryInformationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CountryInformation
+        fields = '__all__'
+
+
 class RoadProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = RoadProject

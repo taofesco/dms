@@ -327,9 +327,12 @@ class FederalCostReport(APIView):
         federal_routine = FederalMaintenanceCost.objects.filter(mode="Routine")
         federal_periodic = FederalMaintenanceCost.objects.filter(
             mode="Periodic")
-        federal_corrective = FederalMaintenanceCost.objects.filter(mode="Corrective")
-        federal_reactive = FederalMaintenanceCost.objects.filter(mode="Reactive")
-        federal_emergency = FederalMaintenanceCost.objects.filter(mode="Emergency")
+        federal_corrective = FederalMaintenanceCost.objects.filter(
+            mode="Corrective")
+        federal_reactive = FederalMaintenanceCost.objects.filter(
+            mode="Reactive")
+        federal_emergency = FederalMaintenanceCost.objects.filter(
+            mode="Emergency")
 
         federal_routine_dual_amount_sum = federal_routine.aggregate(
             Sum('dual_carriage_amount'))['dual_carriage_amount__sum']
@@ -388,14 +391,13 @@ class FederalCostReport(APIView):
             federal_corrective_single_percent_sum + \
             federal_corrective_earth_percent_sum
 
-
         federal_reactive_dual_amount_sum = federal_reactive.aggregate(
             Sum('dual_carriage_amount'))['dual_carriage_amount__sum']
         federal_reactive_single_amount_sum = federal_reactive.aggregate(
             Sum('single_carriage_amount'))['single_carriage_amount__sum']
         federal_reactive_earth_amount_sum = federal_reactive.aggregate(
             Sum('earth_carriage_amount'))['earth_carriage_amount__sum']
-        federal_reactive_dual_percent_sum = federal_reactive.aggregate( 
+        federal_reactive_dual_percent_sum = federal_reactive.aggregate(
             Sum('dual_carriage_percent'))['dual_carriage_percent__sum']
         federal_reactive_single_percent_sum = federal_reactive.aggregate(
             Sum('single_carriage_percent'))['single_carriage_percent__sum']
@@ -407,7 +409,6 @@ class FederalCostReport(APIView):
         federal_reactive_total_percent_sum = federal_reactive_dual_percent_sum + \
             federal_reactive_single_percent_sum + \
             federal_reactive_earth_percent_sum
-
 
         federal_emergency_dual_amount_sum = federal_emergency.aggregate(
             Sum('dual_carriage_amount'))['dual_carriage_amount__sum']
@@ -427,7 +428,6 @@ class FederalCostReport(APIView):
         federal_emergency_total_percent_sum = federal_emergency_dual_percent_sum + \
             federal_emergency_single_percent_sum + \
             federal_emergency_earth_percent_sum
-
 
         federal_dual_amount_subtotal = federal_routine_dual_amount_sum + \
             federal_periodic_dual_amount_sum + \
@@ -465,8 +465,6 @@ class FederalCostReport(APIView):
         federal_total_percent_subtotal = federal_dual_percent_subtotal + \
             federal_single_percent_subtotal + \
             federal_earth_percent_subtotal
-
-
 
         # federal_dual_amount_subtotal = federal_routine_dual_amount_sum + \
         #     federal_periodic_dual_amount_sum
@@ -553,7 +551,8 @@ class StateCostReport(APIView):
     def get(self, request, format=None):
         state_routine = StateMaintenanceCost.objects.filter(mode="Routine")
         state_periodic = StateMaintenanceCost.objects.filter(mode="Periodic")
-        state_corrective = StateMaintenanceCost.objects.filter(mode="Corrective")
+        state_corrective = StateMaintenanceCost.objects.filter(
+            mode="Corrective")
         state_reactive = StateMaintenanceCost.objects.filter(mode="Reactive")
         state_emergency = StateMaintenanceCost.objects.filter(mode="Emergency")
 
@@ -613,7 +612,7 @@ class StateCostReport(APIView):
         state_corrective_total_percent_sum = state_corrective_dual_percent_sum + \
             state_corrective_single_percent_sum + \
             state_corrective_earth_percent_sum
-        
+
         state_reactive_dual_amount_sum = state_reactive.aggregate(
             Sum('dual_carriage_amount'))['dual_carriage_amount__sum']
         state_reactive_single_amount_sum = state_reactive.aggregate(
@@ -632,7 +631,7 @@ class StateCostReport(APIView):
         state_reactive_total_percent_sum = state_reactive_dual_percent_sum + \
             state_reactive_single_percent_sum + \
             state_reactive_earth_percent_sum
-        
+
         state_emergency_dual_amount_sum = state_emergency.aggregate(
             Sum('dual_carriage_amount'))['dual_carriage_amount__sum']
         state_emergency_single_amount_sum = state_emergency.aggregate(
@@ -651,7 +650,6 @@ class StateCostReport(APIView):
         state_emergency_total_percent_sum = state_emergency_dual_percent_sum + \
             state_emergency_single_percent_sum + \
             state_emergency_earth_percent_sum
-
 
         state_dual_amount_subtotal = state_routine_dual_amount_sum + \
             state_periodic_dual_amount_sum + \
@@ -689,7 +687,6 @@ class StateCostReport(APIView):
         state_total_percent_subtotal = state_dual_percent_subtotal + \
             state_single_percent_subtotal + \
             state_earth_percent_subtotal
-
 
         return Response({
             "routine": {
@@ -760,7 +757,8 @@ class RuralCostReport(APIView):
         # !/usr/bin/env python3
         rural_routine = RuralMaintenanceCost.objects.filter(mode="Routine")
         rural_periodic = RuralMaintenanceCost.objects.filter(mode="Periodic")
-        rural_corrective = RuralMaintenanceCost.objects.filter(mode="Corrective")
+        rural_corrective = RuralMaintenanceCost.objects.filter(
+            mode="Corrective")
         rural_reactive = RuralMaintenanceCost.objects.filter(mode="Reactive")
         rural_emergency = RuralMaintenanceCost.objects.filter(mode="Emergency")
 
@@ -801,7 +799,7 @@ class RuralCostReport(APIView):
         rural_periodic_total_percent_sum = rural_periodic_dual_percent_sum + \
             rural_periodic_single_percent_sum + \
             rural_periodic_earth_percent_sum
-        
+
         rural_corrective_dual_amount_sum = rural_corrective.aggregate(
             Sum('dual_carriage_amount'))['dual_carriage_amount__sum']
         rural_corrective_single_amount_sum = rural_corrective.aggregate(
@@ -840,7 +838,6 @@ class RuralCostReport(APIView):
             rural_reactive_single_percent_sum + \
             rural_reactive_earth_percent_sum
 
-
         rural_emergency_dual_amount_sum = rural_emergency.aggregate(
             Sum('dual_carriage_amount'))['dual_carriage_amount__sum']
         rural_emergency_single_amount_sum = rural_emergency.aggregate(
@@ -859,10 +856,6 @@ class RuralCostReport(APIView):
         rural_emergency_total_percent_sum = rural_emergency_dual_percent_sum + \
             rural_emergency_single_percent_sum + \
             rural_emergency_earth_percent_sum
-
-    
-
-
 
         rural_dual_amount_subtotal = rural_routine_dual_amount_sum + \
             rural_periodic_dual_amount_sum + \
@@ -974,7 +967,8 @@ class UrbanCostReport(APIView):
     def get(self, request):
         urban_routine = UrbanMaintenanceCost.objects.filter(mode="Routine")
         urban_periodic = UrbanMaintenanceCost.objects.filter(mode="Periodic")
-        urban_corrective = UrbanMaintenanceCost.objects.filter(mode="Corrective")
+        urban_corrective = UrbanMaintenanceCost.objects.filter(
+            mode="Corrective")
         urban_reactive = UrbanMaintenanceCost.objects.filter(mode="Reactive")
         urban_emergency = UrbanMaintenanceCost.objects.filter(mode="Emergency")
 
@@ -1073,8 +1067,6 @@ class UrbanCostReport(APIView):
             urban_emergency_single_percent_sum + \
             urban_emergency_earth_percent_sum
 
-
-
         urban_dual_amount_subtotal = urban_routine_dual_amount_sum + \
             urban_periodic_dual_amount_sum + \
             urban_corrective_dual_amount_sum + \
@@ -1115,7 +1107,6 @@ class UrbanCostReport(APIView):
             urban_corrective_total_percent_sum + \
             urban_reactive_total_percent_sum + \
             urban_emergency_total_percent_sum
-
 
         return Response({
             "routine": {
@@ -1269,7 +1260,6 @@ class VillageCostReport(APIView):
             village_reactive_single_percent_sum + \
             village_reactive_earth_percent_sum
 
-
         village_emergency_dual_amount_sum = village_emergency.aggregate(
             Sum('dual_carriage_amount'))['dual_carriage_amount__sum']
         village_emergency_single_amount_sum = village_emergency.aggregate(
@@ -1288,7 +1278,6 @@ class VillageCostReport(APIView):
         village_emergency_total_percent_sum = village_emergency_dual_percent_sum + \
             village_emergency_single_percent_sum + \
             village_emergency_earth_percent_sum
-
 
         village_dual_amount_subtotal = village_routine_dual_amount_sum + \
             village_periodic_dual_amount_sum + \
@@ -1399,9 +1388,24 @@ class VillageCostReport(APIView):
         })
 
 
+class BudgetChart(APIView):
+    def get(self, request, format=None):
+        year = request.GET.get('year')
+        if year and year != '' and year != 'undefined' and year != 'null':
+            year = int(year)
+            budgets = Budget.objects.filter(year__lte=year).order_by('year')[:10]
+            serializer = BudgetSerializer(budgets, many=True)
+            return Response(serializer.data)
+        else:
+            year = int(datetime.now().year)
+            budgets = Budget.objects.filter(year__lte=year).order_by('year')[:10]
+            serializer = BudgetSerializer(budgets, many=True)
+            return Response(serializer.data)
+
+
 class BudgetList(APIView):
     def get(self, request, format=None):
-        budgets = Budget.objects.all()
+        budgets = Budget.objects.all().order_by('-year')
         serializer = BudgetSerializer(budgets, many=True)
         return Response(serializer.data)
 
@@ -1803,6 +1807,48 @@ class PublicPrivatePartnershipDetail(APIView):
     def delete(self, request, pk, format=None):
         publicprivatepartnership = self.get_object(pk)
         publicprivatepartnership.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class CountryInformationList(APIView):
+    def get(self, request, format=None):
+        countryinformations = CountryInformation.objects.all()
+        serializer = CountryInformationSerializer(
+            countryinformations, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = CountryInformationSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class CountryInformationDetail(APIView):
+    def get_object(self, pk):
+        try:
+            return CountryInformation.objects.get(pk=pk)
+        except CountryInformation.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        countryinformation = self.get_object(pk)
+        serializer = CountryInformationSerializer(countryinformation)
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        countryinformation = self.get_object(pk)
+        serializer = CountryInformationSerializer(
+            countryinformation, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        countryinformation = self.get_object(pk)
+        countryinformation.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
@@ -2454,7 +2500,8 @@ class FederalMaintenanceCostImportExport(APIView):
         return response
 
     def post(self, request, format=None):
-        book_resource = resources.modelresource_factory(model=FederalMaintenanceCost)()
+        book_resource = resources.modelresource_factory(
+            model=FederalMaintenanceCost)()
         serializer = ImportFileSerializer(data=request.data)
         if serializer.is_valid():
             import_file = serializer.save()
@@ -2484,7 +2531,8 @@ class StateMaintenanceCostImportExport(APIView):
         return response
 
     def post(self, request, format=None):
-        book_resource = resources.modelresource_factory(model=StateMaintenanceCost)()
+        book_resource = resources.modelresource_factory(
+            model=StateMaintenanceCost)()
         serializer = ImportFileSerializer(data=request.data)
         if serializer.is_valid():
             import_file = serializer.save()
@@ -2514,7 +2562,8 @@ class UrbanMaintenanceCostImportExport(APIView):
         return response
 
     def post(self, request, format=None):
-        book_resource = resources.modelresource_factory(model=UrbanMaintenanceCost)()
+        book_resource = resources.modelresource_factory(
+            model=UrbanMaintenanceCost)()
         serializer = ImportFileSerializer(data=request.data)
         if serializer.is_valid():
             import_file = serializer.save()
@@ -2544,7 +2593,8 @@ class RuralMaintenanceCostImportExport(APIView):
         return response
 
     def post(self, request, format=None):
-        book_resource = resources.modelresource_factory(model=RuralMaintenanceCost)()
+        book_resource = resources.modelresource_factory(
+            model=RuralMaintenanceCost)()
         serializer = ImportFileSerializer(data=request.data)
         if serializer.is_valid():
             import_file = serializer.save()
@@ -2574,7 +2624,8 @@ class VillageMaintenanceCostImportExport(APIView):
         return response
 
     def post(self, request, format=None):
-        book_resource = resources.modelresource_factory(model=VillageMaintenanceCost)()
+        book_resource = resources.modelresource_factory(
+            model=VillageMaintenanceCost)()
         serializer = ImportFileSerializer(data=request.data)
         if serializer.is_valid():
             import_file = serializer.save()
@@ -2604,7 +2655,8 @@ class RoadMaintenanceImpactImportExport(APIView):
         return response
 
     def post(self, request, format=None):
-        book_resource = resources.modelresource_factory(model=RoadMaintenanceImpact)()
+        book_resource = resources.modelresource_factory(
+            model=RoadMaintenanceImpact)()
         serializer = ImportFileSerializer(data=request.data)
         if serializer.is_valid():
             import_file = serializer.save()
@@ -2650,7 +2702,6 @@ class ManagementPlanImportExport(APIView):
                 import_file.delete()
                 return Response(result.errors, status=status.HTTP_400_BAD_REQUEST)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 
 class RoadAssetImportExport(APIView):
@@ -2743,7 +2794,6 @@ class StakeholderImportExport(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-
 class PESTLEImportExport(APIView):
     parser_classes = (MultiPartParser, FormParser)
 
@@ -2786,7 +2836,8 @@ class RoadInformationImportExport(APIView):
         return response
 
     def post(self, request, format=None):
-        book_resource = resources.modelresource_factory(model=RoadInformation)()
+        book_resource = resources.modelresource_factory(
+            model=RoadInformation)()
         serializer = ImportFileSerializer(data=request.data)
         if serializer.is_valid():
             import_file = serializer.save()
@@ -2846,7 +2897,39 @@ class PublicPrivatePartnershipImportExport(APIView):
         return response
 
     def post(self, request, format=None):
-        book_resource = resources.modelresource_factory(model=PublicPrivatePartnership)()
+        book_resource = resources.modelresource_factory(
+            model=PublicPrivatePartnership)()
+        serializer = ImportFileSerializer(data=request.data)
+        if serializer.is_valid():
+            import_file = serializer.save()
+            dataset = Dataset().load(import_file.file.read())
+            result = book_resource.import_data(
+                dataset, format='xlsx',  dry_run=True)
+            if not result.has_errors():
+                result = book_resource.import_data(
+                    dataset, format='xlsx', dry_run=False)
+                import_file.delete()
+                return Response({'Successful'}, status=status.HTTP_201_CREATED)
+            else:
+                import_file.delete()
+                return Response(result.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class CountryInformationImportExport(APIView):
+    parser_classes = (MultiPartParser, FormParser)
+
+    def get(self, request, format=None):
+        country_information_resource = CountryInformationResource()
+        dataset = country_information_resource.export()
+        response = HttpResponse(
+            dataset.xlsx, content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response['Content-Disposition'] = 'attachment; filename="country_information.xlsx"'
+        return response
+
+    def post(self, request, format=None):
+        book_resource = resources.modelresource_factory(
+            model=CountryInformation)()
         serializer = ImportFileSerializer(data=request.data)
         if serializer.is_valid():
             import_file = serializer.save()
@@ -2876,7 +2959,8 @@ class ProjectMaintenanceWorkImportExport(APIView):
         return response
 
     def post(self, request, format=None):
-        book_resource = resources.modelresource_factory(model=ProjectMaintenanceWork)()
+        book_resource = resources.modelresource_factory(
+            model=ProjectMaintenanceWork)()
         serializer = ImportFileSerializer(data=request.data)
         if serializer.is_valid():
             import_file = serializer.save()
@@ -3116,7 +3200,8 @@ class SummaryMaintenanceImportExport(APIView):
         return response
 
     def post(self, request, format=None):
-        book_resource = resources.modelresource_factory(model=SummaryMaintenance)()
+        book_resource = resources.modelresource_factory(
+            model=SummaryMaintenance)()
         serializer = ImportFileSerializer(data=request.data)
         if serializer.is_valid():
             import_file = serializer.save()
@@ -3132,7 +3217,6 @@ class SummaryMaintenanceImportExport(APIView):
                 import_file.delete()
                 return Response(result.errors, status=status.HTTP_400_BAD_REQUEST)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 
 class Deliverables1ImportExport(APIView):
@@ -3208,7 +3292,8 @@ class SummaryScorecardImportExport(APIView):
         return response
 
     def post(self, request, format=None):
-        book_resource = resources.modelresource_factory(model=SummaryScorecard)()
+        book_resource = resources.modelresource_factory(
+            model=SummaryScorecard)()
         serializer = ImportFileSerializer(data=request.data)
         if serializer.is_valid():
             import_file = serializer.save()
