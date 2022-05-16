@@ -182,9 +182,15 @@ class Deliverables2Serializer(serializers.ModelSerializer):
 
 
 class SummaryScorecardSerializer(serializers.ModelSerializer):
+    total = serializers.SerializerMethodField(
+        'get_total')
     class Meta:
         model = SummaryScorecard
         fields = '__all__'
+
+    def get_total(self, obj):
+        return obj.q1 + obj.q2 + obj.q3 + obj.q4 
+
 
 
 class FolderSerializer(serializers.ModelSerializer):
@@ -203,3 +209,6 @@ class ImportFileSerializer(serializers.ModelSerializer):
     class Meta:
         model = ImportFile
         fields = '__all__'
+
+
+

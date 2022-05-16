@@ -2355,6 +2355,114 @@ class FolderList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class ProjectFolderList(APIView):
+
+    def get(self, request, format=None):
+        folder = Folder.objects.filter(media_folder='Project')
+        serializer = FolderSerializer(folder, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        employee = Employee.objects.get(user=request.user)
+        serializer = FolderSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(created_by=employee)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class CostFolderList(APIView):
+
+    def get(self, request, format=None):
+        folder = Folder.objects.filter(media_folder='Cost')
+        serializer = FolderSerializer(folder, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        employee = Employee.objects.get(user=request.user)
+        serializer = FolderSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(created_by=employee)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class InventoryFolderList(APIView):
+
+    def get(self, request, format=None):
+        folder = Folder.objects.filter(media_folder='Inventory')
+        serializer = FolderSerializer(folder, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        employee = Employee.objects.get(user=request.user)
+        serializer = FolderSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(created_by=employee)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class PerformanceFolderList(APIView):
+
+    def get(self, request, format=None):
+        folder = Folder.objects.filter(media_folder='Performance')
+        serializer = FolderSerializer(folder, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        employee = Employee.objects.get(user=request.user)
+        serializer = FolderSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(created_by=employee)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class ScorecardFolderList(APIView):
+    def get(self, request, format=None):
+        folder = Folder.objects.filter(media_folder='Scorecard')
+        serializer = FolderSerializer(folder, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        employee = Employee.objects.get(user=request.user)
+        serializer = FolderSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(created_by=employee)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class ExternalFolderList(APIView):
+    def get(self, request, format=None):
+        folder = Folder.objects.filter(media_folder='External')
+        serializer = FolderSerializer(folder, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        employee = Employee.objects.get(user=request.user)
+        serializer = FolderSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(created_by=employee)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class MediaFolderList(APIView):
+    def get(self, request, format=None):
+        folder = Folder.objects.filter(media_folder='Media')
+        serializer = FolderSerializer(folder, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        employee = Employee.objects.get(user=request.user)
+        serializer = FolderSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(created_by=employee)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
 class FolderDetail(APIView):
 
     def get_object(self, pk):

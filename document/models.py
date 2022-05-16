@@ -58,7 +58,10 @@ class Budget(models.Model):
     preventive_maintenance =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
     planned_maintenance =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
     routine_maintenance =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
-    emergency_works =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    correction_works = models.DecimalField(
+        max_digits=10, decimal_places=2, null=True)
+    emergency_works = models.DecimalField(
+        max_digits=10, decimal_places=2, null=True)
     other_activities =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
     released_budget =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
     utilized_budget =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
@@ -173,6 +176,7 @@ class VillageMaintenanceCost(models.Model):
 
 
 class RoadMaintenanceImpact(models.Model):
+    year = models.IntegerField(null=True)
     impact_plan = models.CharField(max_length=500, null=True)
     gdp_economy = models.CharField(max_length=500, null=True)
     climate_change = models.CharField(max_length=500, null=True)
@@ -185,6 +189,7 @@ class RoadMaintenanceImpact(models.Model):
 
 
 class ManagementPlan(models.Model):
+    year = models.IntegerField(null=True)
     strategic_plan = models.CharField(max_length=500, null=True)
     management_plan = models.CharField(max_length=500, null=True)
     business_plan = models.CharField(max_length=500, null=True)
@@ -195,6 +200,7 @@ class ManagementPlan(models.Model):
 
 
 class RoadAsset(models.Model):
+    year = models.IntegerField(null=True)
     asset = models.CharField(max_length=500, null=True)
     name = models.CharField(max_length=500, null=True)
     numbers =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
@@ -211,6 +217,7 @@ class RoadAsset(models.Model):
 
 
 class NonRoadAsset(models.Model):
+    year = models.IntegerField(null=True)
     asset = models.CharField(max_length=500, null=True)
     location = models.CharField(max_length=500, null=True)
     name = models.CharField(max_length=500, null=True)
@@ -230,6 +237,7 @@ class NonRoadAsset(models.Model):
 
 
 class Stakeholder(models.Model):
+    year = models.IntegerField(null=True)
     name = models.CharField(max_length=500, null=True)
     stake = models.CharField(max_length=500, null=True)
     address = models.CharField(max_length=500, null=True)
@@ -241,6 +249,7 @@ class Stakeholder(models.Model):
 
 
 class PESTLE(models.Model):
+    year = models.IntegerField(null=True)
     political = models.CharField(max_length=500, null=True)
     economic = models.CharField(max_length=500, null=True)
     social = models.CharField(max_length=500, null=True)
@@ -252,6 +261,7 @@ class PESTLE(models.Model):
 
 
 class RoadInformation(models.Model):
+    year = models.IntegerField(null=True)
     revenue_source = models.CharField(max_length=500, null=True)
     periodic_audit = models.BooleanField(null=True, default=False)
     external_audit = models.BooleanField(null=True, default=False)
@@ -272,6 +282,7 @@ class RoadInformation(models.Model):
 
 
 class PBMC(models.Model):
+    year = models.IntegerField(null=True)
     road = models.CharField(max_length=500, null=True)
     maintained_road = models.DecimalField(
         max_digits=10, decimal_places=2, null=True)
@@ -283,6 +294,7 @@ class PBMC(models.Model):
 
 
 class PublicPrivatePartnership(models.Model):
+    year = models.IntegerField(null=True)
     legislative_for_ppp = models.CharField(max_length=500, null=True)
     dedicated_ppp = models.BooleanField(null=True, default=False)
     dedicated_ppp_ministry = models.CharField(max_length=500, null=True)
@@ -321,6 +333,7 @@ class ProjectMaintenanceWork(models.Model):
 class RoadProject(models.Model):
     year = models.IntegerField(null=True)
     east_west = models.CharField(max_length=1500, null=True)
+    location = models.CharField(max_length=1500, null=True)
     contract = models.CharField(max_length=1500, null=True)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
 
@@ -334,6 +347,7 @@ class NonRoadProject(models.Model):
 
 
 class InventoryRoad(models.Model):
+    year = models.IntegerField(null=True)
     name = models.CharField(max_length=500, null=True)
     route_no =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
     total_length = models.DecimalField(
@@ -366,6 +380,7 @@ class WorkStream(models.Model):
 
 
 class Legend(models.Model):
+    year = models.IntegerField(null=True)
     asphaltic_concrete = models.CharField(max_length=500, null=True)
     # wc =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
     # bc =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
@@ -377,6 +392,7 @@ class Legend(models.Model):
 # HMWH Mandate Performance
 
 class KPI(models.Model):
+    year = models.IntegerField(null=True)
     period = models.CharField(max_length=500, null=True)
     activity = models.CharField(max_length=500, null=True)
     kpi = models.CharField(max_length=500, null=True)
@@ -392,6 +408,7 @@ class KPI(models.Model):
 
 
 class Activities(models.Model):
+    year = models.IntegerField(null=True)
     period = models.CharField(max_length=500, null=True)
     state = models.CharField(max_length=500, null=True)
     contractor_no =  models.DecimalField(max_digits=10, decimal_places=2, null=True)
@@ -421,7 +438,7 @@ class SummaryMaintenance(models.Model):
 
 class Deliverables1(models.Model):
     deliverable_no = models.CharField(max_length=1500, null=True)
-    year = models.CharField(max_length=500, null=True)
+    year = models.IntegerField(null=True)
     description = models.CharField(max_length=1500, null=True)
     support = models.CharField(max_length=500, null=True)
     main_output = models.CharField(max_length=500, null=True)
@@ -447,7 +464,7 @@ class Deliverables1(models.Model):
 
 class Deliverables2(models.Model):
     deliverable_no = models.CharField(max_length=1500, null=True)
-    year = models.CharField(max_length=500, null=True)
+    year = models.IntegerField(null=True)
     description = models.CharField(max_length=1500, null=True)
     types = models.CharField(max_length=500, null=True)
     main_output = models.CharField(max_length=500, null=True)
@@ -455,14 +472,21 @@ class Deliverables2(models.Model):
     baseline = models.DecimalField(max_digits=10, decimal_places=2, null=True)
     target = models.DecimalField(max_digits=10, decimal_places=2, null=True)
     actual = models.DecimalField(max_digits=10, decimal_places=2, null=True)
-    q1_target = models.DecimalField(max_digits=10, decimal_places=2, null=True)
-    q1_actual = models.DecimalField(max_digits=10, decimal_places=2, null=True)
-    q2_target = models.DecimalField(max_digits=10, decimal_places=2, null=True)
-    q2_actual = models.DecimalField(max_digits=10, decimal_places=2, null=True)
-    q3_target = models.DecimalField(max_digits=10, decimal_places=2, null=True)
-    q3_actual = models.DecimalField(max_digits=10, decimal_places=2, null=True)
-    q2_target = models.DecimalField(max_digits=10, decimal_places=2, null=True)
-    q2_actual = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    q1_target = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    q1_actual = models.DecimalField(
+        max_digits=10, decimal_places=2, null=True, blank=True)
+    q2_target = models.DecimalField(
+        max_digits=10, decimal_places=2, null=True, blank=True)
+    q2_actual = models.DecimalField(
+        max_digits=10, decimal_places=2, null=True, blank=True)
+    q3_target = models.DecimalField(
+        max_digits=10, decimal_places=2, null=True, blank=True)
+    q3_actual = models.DecimalField(
+        max_digits=10, decimal_places=2, null=True, blank=True)
+    q2_target = models.DecimalField(
+        max_digits=10, decimal_places=2, null=True, blank=True)
+    q2_actual = models.DecimalField(
+        max_digits=10, decimal_places=2, null=True, blank=True)
     annual_target = models.DecimalField(
         max_digits=10, decimal_places=2, null=True)
     annual_actual = models.DecimalField(
@@ -473,17 +497,32 @@ class Deliverables2(models.Model):
 
 
 class SummaryScorecard(models.Model):
-    range = models.CharField(max_length=500, null=True)
-    year = models.CharField(max_length=500, null=True)
-    length_recovered = models.DecimalField(max_digits=10, decimal_places=2, null=True)
-    q1 = models.DecimalField(max_digits=10, decimal_places=2, null=True)
-    q2 = models.DecimalField(max_digits=10, decimal_places=2, null=True)
-    q3 = models.DecimalField(max_digits=10, decimal_places=2, null=True)
-    q4 = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    range = models.CharField(max_length=1500, null=True)
+    year = models.IntegerField(null=True)
+    length_recovered = models.CharField(max_length=500, null=True)
+    date = models.CharField(max_length=500, null=True)
+    q1 = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0, null=True, blank=True)
+    q2 = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0, null=True, blank=True)
+    q3 = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0, null=True, blank=True)
+    q4 = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0, null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
 
 
 class Folder(models.Model):
+    MODE = (
+        ('Project', 'Project'),
+        ('Cost', 'Cost'),
+        ('Inventory', 'Inventory'),
+        ('Performance', 'Performance'),
+        ('Scorecard', 'Scorecard'),
+        ('External', 'External'),
+        ('Media', 'Media'),
+    )
+    media_folder = models.CharField(max_length=500, choices=MODE, blank=True, null=True)
     name = models.CharField(max_length=500, unique=True, null=True)
     created_by = models.ForeignKey(
         Employee, on_delete=models.CASCADE, null=True, related_name='folder_created_by')
@@ -503,3 +542,6 @@ class ImportFile(models.Model):
     created_by = models.ForeignKey(
         Employee, on_delete=models.CASCADE, null=True, related_name='import_file_created_by')
     date_created = models.DateTimeField(auto_now_add=True, null=True)
+
+
+
