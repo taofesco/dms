@@ -1,3 +1,5 @@
+import os
+from statistics import mode
 from rest_framework import serializers
 from document.models import *
 from django.contrib.auth.password_validation import validate_password
@@ -200,9 +202,17 @@ class FolderSerializer(serializers.ModelSerializer):
 
 
 class FolderFileSerializer(serializers.ModelSerializer):
+
+    file_name = serializers.SerializerMethodField(
+        'get_file_name')
     class Meta:
         model = FolderFile
         fields = '__all__'
+
+    def get_file_name(self, obj):
+        return os.path.basename(obj.file.path)
+
+
 
 
 class ImportFileSerializer(serializers.ModelSerializer):
