@@ -93,6 +93,7 @@ urlpatterns = [
 
     #chart url start here
     path('budget_chart/', BudgetChart.as_view()),
+    path('kpi_chart/', KPIChart.as_view()),
 
 
     # Import/Export path start here

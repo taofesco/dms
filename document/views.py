@@ -1403,6 +1403,22 @@ class BudgetChart(APIView):
             return Response(serializer.data)
 
 
+class KPIChart(APIView):
+    def get(self, request, format=None):
+        year = request.GET.get('year')
+        if year and year != '' and year != 'undefined' and year != 'null':
+            year = int(year)
+            kpis = KPI.objects.filter(year__lte=year).order_by('year')[:10]
+            serializer = KPISerializer(kpis, many=True)
+            return Response(serializer.data)
+        else:
+            year = int(datetime.now().year)
+            kpis = KPI.objects.filter(year__lte=year).order_by('year')[:10]
+            serializer = KPISerializer(kpis, many=True)
+            return Response(serializer.data)
+
+
+
 class BudgetList(APIView):
     def get(self, request, format=None):
         budgets = Budget.objects.all().order_by('-year')
